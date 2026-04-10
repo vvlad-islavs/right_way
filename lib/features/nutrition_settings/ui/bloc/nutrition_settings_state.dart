@@ -5,6 +5,8 @@ class NutritionSettingsState {
     required this.days,
     required this.excludedRaw,
     required this.notes,
+    required this.goal,
+    required this.planName,
     required this.isLoading,
     required this.result,
   });
@@ -13,6 +15,8 @@ class NutritionSettingsState {
         days: 7,
         excludedRaw: '',
         notes: '',
+        goal: NutritionGoal.health,
+        planName: '',
         isLoading: false,
         result: null,
       );
@@ -20,6 +24,8 @@ class NutritionSettingsState {
   final int days;
   final String excludedRaw;
   final String notes;
+  final NutritionGoal goal;
+  final String planName;
   final bool isLoading;
   final NutritionPlanResult? result;
 
@@ -27,6 +33,8 @@ class NutritionSettingsState {
     int? days,
     String? excludedRaw,
     String? notes,
+    NutritionGoal? goal,
+    String? planName,
     bool? isLoading,
     NutritionPlanResult? result,
   }) {
@@ -34,6 +42,8 @@ class NutritionSettingsState {
       days: days ?? this.days,
       excludedRaw: excludedRaw ?? this.excludedRaw,
       notes: notes ?? this.notes,
+      goal: goal ?? this.goal,
+      planName: planName ?? this.planName,
       isLoading: isLoading ?? this.isLoading,
       result: result ?? this.result,
     );

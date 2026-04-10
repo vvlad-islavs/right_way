@@ -1,10 +1,33 @@
 import 'package:auto_route/auto_route.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:right_way/core/core.dart';
 
 @RoutePage()
-class RootTabsScreen extends StatelessWidget {
+class RootTabsScreen extends StatefulWidget {
   const RootTabsScreen({super.key});
+
+  @override
+  State<RootTabsScreen> createState() => _RootTabsScreenState();
+}
+
+class _RootTabsScreenState extends State<RootTabsScreen> {
+  StreamSubscription<AppError>? _sub;
+
+  @override
+  void initState() {
+    super.initState();
+    _sub = di<ErrorReporter>().stream.listen((e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.uiMessage)));
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +36,7 @@ class RootTabsScreen extends StatelessWidget {
         BodyInfoRoute(),
         NutritionSettingsRoute(),
         TodayPlanRoute(),
-        ProgressRoute(),
+        AppSettingsRoute(),
       ],
       builder: (context, child) {
         final tabs = AutoTabsRouter.of(context);
@@ -29,15 +52,15 @@ class RootTabsScreen extends StatelessWidget {
               ),
               NavigationDestination(
                 icon: Icon(Icons.tune_outlined),
-                label: 'Настройки',
+                label: 'Питание',
               ),
               NavigationDestination(
                 icon: Icon(Icons.restaurant_menu_outlined),
                 label: 'План',
               ),
               NavigationDestination(
-                icon: Icon(Icons.show_chart_outlined),
-                label: 'Прогресс',
+                icon: Icon(Icons.settings_outlined),
+                label: 'Настройки',
               ),
             ],
           ),

@@ -1,6 +1,6 @@
-import 'package:right_way/features/nutrition_settings/domain/domain.dart';
+import '../models/nutrition_plan_result.dart';
+import '../models/nutrition_settings.dart';
 
 abstract interface class NutritionSettingsRepo {
   Future<NutritionPlanResult> calculate(NutritionSettings settings);
 }
-

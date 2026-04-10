@@ -1,4 +1,5 @@
-import 'package:right_way/features/body_info/body_info.dart';
+import 'package:right_way/features/body_info/data/local/sources/sources.dart';
+import 'package:right_way/features/body_info/domain/domain.dart';
 
 class BodyInfoRepoImpl implements BodyInfoRepo {
   BodyInfoRepoImpl(this._local);
@@ -11,4 +12,3 @@ class BodyInfoRepoImpl implements BodyInfoRepo {
   @override
   Future<BodyProfile> saveField(BodyField field, num value) => _local.saveField(field, value);
 }
-

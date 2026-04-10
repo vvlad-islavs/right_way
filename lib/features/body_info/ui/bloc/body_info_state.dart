@@ -7,7 +7,6 @@ class BodyInfoState {
     required this.heightText,
     required this.weightText,
     required this.ageText,
-    required this.lastSavedField,
   });
 
   factory BodyInfoState.initial() => const BodyInfoState(
@@ -16,7 +15,6 @@ class BodyInfoState {
         heightText: '',
         weightText: '',
         ageText: '',
-        lastSavedField: null,
       );
 
   final bool isLoading;
@@ -24,7 +22,6 @@ class BodyInfoState {
   final String heightText;
   final String weightText;
   final String ageText;
-  final BodyField? lastSavedField;
 
   BodyInfoState copyWith({
     bool? isLoading,
@@ -32,7 +29,6 @@ class BodyInfoState {
     String? heightText,
     String? weightText,
     String? ageText,
-    BodyField? lastSavedField,
   }) {
     return BodyInfoState(
       isLoading: isLoading ?? this.isLoading,
@@ -40,7 +36,6 @@ class BodyInfoState {
       heightText: heightText ?? this.heightText,
       weightText: weightText ?? this.weightText,
       ageText: ageText ?? this.ageText,
-      lastSavedField: lastSavedField,
     );
   }
 }

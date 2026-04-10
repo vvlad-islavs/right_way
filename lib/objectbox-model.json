@@ -4,44 +4,214 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:8150518108236456525",
-      "lastPropertyId": "4:5927265987705100480",
-      "name": "BodyProfileEntity",
+      "id": "2:1995214224143729043",
+      "lastPropertyId": "4:3064386336780251036",
+      "name": "BodyProfileDto",
       "properties": [
         {
-          "id": "1:8492846164009205153",
+          "id": "1:373509152954194766",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:2162048680494570341",
+          "id": "2:4262211511934339287",
           "name": "heightCm",
           "type": 8
         },
         {
-          "id": "3:5998426863328933995",
+          "id": "3:1812417524143536610",
           "name": "weightKg",
           "type": 8
         },
         {
-          "id": "4:5927265987705100480",
+          "id": "4:3064386336780251036",
           "name": "age",
           "type": 6
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:6809169580916340380",
+      "lastPropertyId": "8:606245702619175545",
+      "name": "DayDto",
+      "properties": [
+        {
+          "id": "1:1728990459412665310",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5077780017561034668",
+          "name": "weekDay",
+          "type": 6
+        },
+        {
+          "id": "3:7542401158893000450",
+          "name": "dayIndex",
+          "type": 6
+        },
+        {
+          "id": "4:4084569165295681999",
+          "name": "dayKcal",
+          "type": 8
+        },
+        {
+          "id": "5:8832859215572557903",
+          "name": "dayProteinG",
+          "type": 8
+        },
+        {
+          "id": "6:5135669247751320435",
+          "name": "dayFatG",
+          "type": 8
+        },
+        {
+          "id": "7:4346791604418819944",
+          "name": "dayCarbsG",
+          "type": 8
+        },
+        {
+          "id": "8:606245702619175545",
+          "name": "planId",
+          "indexId": "1:5938207717566227751",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "PlanDto"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:7343283540933905112",
+      "lastPropertyId": "10:8616412370645849910",
+      "name": "MealDto",
+      "properties": [
+        {
+          "id": "1:3876945777131235059",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4278770769114898878",
+          "name": "mealType",
+          "type": 9
+        },
+        {
+          "id": "3:7862213850141631522",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:7388976002679810913",
+          "name": "ingredientsJson",
+          "type": 9
+        },
+        {
+          "id": "5:1234664996031077283",
+          "name": "stepsJson",
+          "type": 9
+        },
+        {
+          "id": "6:7891421376503490228",
+          "name": "kcal",
+          "type": 8
+        },
+        {
+          "id": "7:53707775144254914",
+          "name": "proteinG",
+          "type": 8
+        },
+        {
+          "id": "8:3998257337351660031",
+          "name": "fatG",
+          "type": 8
+        },
+        {
+          "id": "9:8880353951705315408",
+          "name": "carbsG",
+          "type": 8
+        },
+        {
+          "id": "10:8616412370645849910",
+          "name": "dayId",
+          "indexId": "2:6600145761420423411",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "DayDto"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:6167884544153469309",
+      "lastPropertyId": "8:5266439428879591627",
+      "name": "PlanDto",
+      "properties": [
+        {
+          "id": "1:1927309516321203157",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9035345028869285106",
+          "name": "metaDays",
+          "type": 6
+        },
+        {
+          "id": "3:2575979963947501129",
+          "name": "goal",
+          "type": 9
+        },
+        {
+          "id": "4:6729019002893264017",
+          "name": "excludedFoodsJson",
+          "type": 9
+        },
+        {
+          "id": "5:6785490976291462029",
+          "name": "dayIdsCsv",
+          "type": 9
+        },
+        {
+          "id": "6:4382905652025680889",
+          "name": "createdAtMs",
+          "type": 6
+        },
+        {
+          "id": "7:2915681031958471042",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "8:5266439428879591627",
+          "name": "isActive",
+          "type": 1
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:8150518108236456525",
-  "lastIndexId": "0:0",
+  "lastEntityId": "5:6167884544153469309",
+  "lastIndexId": "2:6600145761420423411",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    8150518108236456525
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    8492846164009205153,
+    2162048680494570341,
+    5998426863328933995,
+    5927265987705100480
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

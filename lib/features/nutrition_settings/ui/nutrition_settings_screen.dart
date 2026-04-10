@@ -1,49 +1,70 @@
 import 'package:auto_route/auto_route.dart';
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:right_way/core/core.dart';
 import 'package:right_way/features/nutrition_settings/nutrition_settings.dart';
 
 @RoutePage()
-class NutritionSettingsScreen extends StatefulWidget {
+class NutritionSettingsScreen extends StatelessWidget {
   const NutritionSettingsScreen({super.key});
 
   @override
-  State<NutritionSettingsScreen> createState() => _NutritionSettingsScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(create: (_) => di<NutritionSettingsBloc>(), child: const _NutritionSettingsView());
+  }
 }
 
-class _NutritionSettingsScreenState extends State<NutritionSettingsScreen> {
-  late final StreamSubscription<AppError> _sub;
+class _NutritionSettingsView extends StatefulWidget {
+  const _NutritionSettingsView();
+
+  @override
+  State<_NutritionSettingsView> createState() => _NutritionSettingsViewState();
+}
+
+class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
+  final _planNameController = TextEditingController();
+  final _excludedController = TextEditingController();
+  final _notesController = TextEditingController();
+  final _notesFocusNode = FocusNode();
+  final _excludedFocusNode = FocusNode();
 
   @override
   void initState() {
+    final blocInitState = context.read<NutritionSettingsBloc>().state;
+    _planNameController.text = blocInitState.planName;
+    _excludedController.text = blocInitState.excludedRaw;
+    _notesController.text = blocInitState.notes;
     super.initState();
-    _sub = di<ErrorReporter>().stream.listen((e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message)),
-      );
-    });
   }
 
   @override
   void dispose() {
-    _sub.cancel();
+    _planNameController.dispose();
+    _excludedController.dispose();
+    _notesController.dispose();
+    _notesFocusNode.dispose();
+    _excludedFocusNode.dispose();
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => di<NutritionSettingsBloc>(),
-      child: const _NutritionSettingsView(),
-    );
+  String _goalLabel(NutritionGoal goal) {
+    return switch (goal) {
+      NutritionGoal.weightLoss => 'Похудение',
+      NutritionGoal.muscleGain => 'Масса',
+      NutritionGoal.health => 'Здоровье',
+    };
   }
-}
 
-class _NutritionSettingsView extends StatelessWidget {
-  const _NutritionSettingsView();
+  void _handleExcludedChanged(String value) {
+    if (_excludedFocusNode.hasFocus) _excludedFocusNode.unfocus();
+    context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setExcluded(value.trim()));
+  }
+
+  void _handleNotesChanged(String value) {
+    if (_notesFocusNode.hasFocus) _notesFocusNode.unfocus();
+    context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setNotes(value.trim()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,54 +88,98 @@ class _NutritionSettingsView extends StatelessWidget {
                         max: 30,
                         divisions: 29,
                         label: '${state.days}',
-                        onChanged: state.isLoading ? null : (v) => context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setDays(v.toInt())),
+                        onChanged: state.isLoading
+                            ? null
+                            : (v) =>
+                                  context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setDays(v.toInt())),
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              const Gap(12),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: DropdownButtonFormField<NutritionGoal>(
+                    initialValue: state.goal,
+                    decoration: const InputDecoration(labelText: 'Цель', border: OutlineInputBorder()),
+                    items: NutritionGoal.values
+                        .map((g) => DropdownMenuItem(value: g, child: Text(_goalLabel(g))))
+                        .toList(growable: false),
+                    onChanged: state.isLoading
+                        ? null
+                        : (v) {
+                            if (v == null) return;
+                            context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setGoal(v));
+                          },
+                  ),
+                ),
+              ),
+              const Gap(12),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: TextField(
+                    controller: _planNameController,
+                    enabled: !state.isLoading,
+                    decoration: const InputDecoration(
+                      labelText: 'Название плана',
+                      hintText: 'Как назвать этот план в списке',
+                      border: OutlineInputBorder(),
+                    ),
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: (v) => context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setPlanName(v)),
+                  ),
+                ),
+              ),
+              const Gap(12),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: TextField(
+                    controller: _excludedController,
+                    focusNode: _excludedFocusNode,
                     decoration: const InputDecoration(
                       labelText: 'Исключить продукты (через запятую)',
                       border: OutlineInputBorder(),
                     ),
-                    controller: TextEditingController(text: state.excludedRaw),
-                    onChanged: (v) => context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setExcluded(v)),
+                    onSubmitted: (v) => _handleExcludedChanged(v),
+                    onEditingComplete: () => _handleExcludedChanged(_excludedController.text),
+                    onTapOutside: (_) => _handleExcludedChanged(_excludedController.text),
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              const Gap(12),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: TextField(
+                    minLines: 2,
+                    maxLines: 4,
+                    focusNode: _notesFocusNode,
+                    controller: _notesController,
                     decoration: const InputDecoration(
                       labelText: 'Доп. параметры / заметки',
                       border: OutlineInputBorder(),
                     ),
-                    minLines: 2,
-                    maxLines: 4,
-                    controller: TextEditingController(text: state.notes),
-                    onChanged: (v) => context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setNotes(v)),
+                    onSubmitted: (v) => _handleNotesChanged(v),
+                    onEditingComplete: () => _handleNotesChanged(_notesController.text),
+                    onTapOutside: (_) => _handleNotesChanged(_notesController.text),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const Gap(16),
               FilledButton(
-                onPressed: state.isLoading ? null : () => context.read<NutritionSettingsBloc>().add(const NutritionSettingsEvent.calculate()),
+                onPressed: state.isLoading
+                    ? null
+                    : () => context.read<NutritionSettingsBloc>().add(const NutritionSettingsEvent.calculate()),
                 child: state.isLoading ? const CircularProgressIndicator() : const Text('Рассчитать'),
               ),
               if (state.result != null) ...[
-                const SizedBox(height: 16),
+                const Gap(16),
                 Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Text('Ответ API: ${state.result!.rawJson}'),
-                  ),
+                  child: Padding(padding: const EdgeInsets.all(12), child: Text('Ответ API: ${state.result!.rawJson}')),
                 ),
               ],
             ],
@@ -124,4 +189,3 @@ class _NutritionSettingsView extends StatelessWidget {
     );
   }
 }
-

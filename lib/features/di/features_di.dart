@@ -1,15 +1,14 @@
 import 'package:get_it/get_it.dart';
-import 'package:right_way/features/body_info/body_info.dart';
-import 'package:right_way/features/nutrition_settings/nutrition_settings.dart';
-import 'package:right_way/features/progress/progress.dart';
-import 'package:right_way/features/today_plan/today_plan.dart';
+import 'package:right_way/features/app_settings/di/di.dart';
+import 'package:right_way/features/body_info/di/di.dart';
+import 'package:right_way/features/nutrition_settings/di/di.dart';
+import 'package:right_way/features/today_plan/di/di.dart';
 
 class FeaturesDi {
   static void register(GetIt di) {
+    AppSettingsDi.register(di);
     BodyInfoDi.register(di);
-    NutritionSettingsDi.register(di);
     TodayPlanDi.register(di);
-    ProgressDi.register(di);
+    NutritionSettingsDi.register(di);
   }
 }
-

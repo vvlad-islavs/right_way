@@ -14,37 +14,38 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'features/body_info/data/local/body_profile_entity.dart';
+import 'features/body_info/data/local/entities/body_profile_entity.dart';
+import 'features/today_plan/data/local/models/today_plan_objectbox.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-    id: const obx_int.IdUid(1, 8150518108236456525),
-    name: 'BodyProfileEntity',
-    lastPropertyId: const obx_int.IdUid(4, 5927265987705100480),
+    id: const obx_int.IdUid(2, 1995214224143729043),
+    name: 'BodyProfileDto',
+    lastPropertyId: const obx_int.IdUid(4, 3064386336780251036),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(1, 8492846164009205153),
+        id: const obx_int.IdUid(1, 373509152954194766),
         name: 'id',
         type: 6,
         flags: 1,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(2, 2162048680494570341),
+        id: const obx_int.IdUid(2, 4262211511934339287),
         name: 'heightCm',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(3, 5998426863328933995),
+        id: const obx_int.IdUid(3, 1812417524143536610),
         name: 'weightKg',
         type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
-        id: const obx_int.IdUid(4, 5927265987705100480),
+        id: const obx_int.IdUid(4, 3064386336780251036),
         name: 'age',
         type: 6,
         flags: 0,
@@ -52,6 +53,210 @@ final _entities = <obx_int.ModelEntity>[
     ],
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(3, 6809169580916340380),
+    name: 'DayDto',
+    lastPropertyId: const obx_int.IdUid(8, 606245702619175545),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1728990459412665310),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5077780017561034668),
+        name: 'weekDay',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 7542401158893000450),
+        name: 'dayIndex',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 4084569165295681999),
+        name: 'dayKcal',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 8832859215572557903),
+        name: 'dayProteinG',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 5135669247751320435),
+        name: 'dayFatG',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 4346791604418819944),
+        name: 'dayCarbsG',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 606245702619175545),
+        name: 'planId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(1, 5938207717566227751),
+        relationField: 'plan',
+        relationTarget: 'PlanDto',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[
+      obx_int.ModelBacklink(
+        name: 'meals',
+        srcEntity: 'MealDto',
+        srcField: 'day',
+      ),
+    ],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(4, 7343283540933905112),
+    name: 'MealDto',
+    lastPropertyId: const obx_int.IdUid(10, 8616412370645849910),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 3876945777131235059),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 4278770769114898878),
+        name: 'mealType',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 7862213850141631522),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 7388976002679810913),
+        name: 'ingredientsJson',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 1234664996031077283),
+        name: 'stepsJson',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 7891421376503490228),
+        name: 'kcal',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 53707775144254914),
+        name: 'proteinG',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 3998257337351660031),
+        name: 'fatG',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(9, 8880353951705315408),
+        name: 'carbsG',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(10, 8616412370645849910),
+        name: 'dayId',
+        type: 11,
+        flags: 520,
+        indexId: const obx_int.IdUid(2, 6600145761420423411),
+        relationField: 'day',
+        relationTarget: 'DayDto',
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(5, 6167884544153469309),
+    name: 'PlanDto',
+    lastPropertyId: const obx_int.IdUid(8, 5266439428879591627),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1927309516321203157),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 9035345028869285106),
+        name: 'metaDays',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 2575979963947501129),
+        name: 'goal',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 6729019002893264017),
+        name: 'excludedFoodsJson',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 6785490976291462029),
+        name: 'dayIdsCsv',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 4382905652025680889),
+        name: 'createdAtMs',
+        type: 6,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 2915681031958471042),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 5266439428879591627),
+        name: 'isActive',
+        type: 1,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[
+      obx_int.ModelBacklink(
+        name: 'days',
+        srcEntity: 'DayDto',
+        srcField: 'plan',
+      ),
+    ],
   ),
 ];
 
@@ -98,13 +303,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
     // Typically, this is done with `dart run build_runner build`.
     generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(1, 8150518108236456525),
-    lastIndexId: const obx_int.IdUid(0, 0),
+    lastEntityId: const obx_int.IdUid(5, 6167884544153469309),
+    lastIndexId: const obx_int.IdUid(2, 6600145761420423411),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
-    retiredEntityUids: const [],
+    retiredEntityUids: const [8150518108236456525],
     retiredIndexUids: const [],
-    retiredPropertyUids: const [],
+    retiredPropertyUids: const [
+      8492846164009205153,
+      2162048680494570341,
+      5998426863328933995,
+      5927265987705100480,
+    ],
     retiredRelationUids: const [],
     modelVersion: 5,
     modelVersionParserMinimum: 5,
@@ -112,15 +322,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
   );
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    BodyProfileEntity: obx_int.EntityDefinition<BodyProfileEntity>(
+    BodyProfileDto: obx_int.EntityDefinition<BodyProfileDto>(
       model: _entities[0],
-      toOneRelations: (BodyProfileEntity object) => [],
-      toManyRelations: (BodyProfileEntity object) => {},
-      getId: (BodyProfileEntity object) => object.id,
-      setId: (BodyProfileEntity object, int id) {
+      toOneRelations: (BodyProfileDto object) => [],
+      toManyRelations: (BodyProfileDto object) => {},
+      getId: (BodyProfileDto object) => object.id,
+      setId: (BodyProfileDto object, int id) {
         object.id = id;
       },
-      objectToFB: (BodyProfileEntity object, fb.Builder fbb) {
+      objectToFB: (BodyProfileDto object, fb.Builder fbb) {
         fbb.startTable(5);
         fbb.addInt64(0, object.id);
         fbb.addFloat64(1, object.heightCm);
@@ -156,7 +366,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           10,
           0,
         );
-        final object = BodyProfileEntity(
+        final object = BodyProfileDto(
           id: idParam,
           heightCm: heightCmParam,
           weightKg: weightKgParam,
@@ -166,30 +376,462 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    DayDto: obx_int.EntityDefinition<DayDto>(
+      model: _entities[1],
+      toOneRelations: (DayDto object) => [object.plan],
+      toManyRelations: (DayDto object) => {
+        obx_int.RelInfo<MealDto>.toOneBacklink(
+          10,
+          object.id,
+          (MealDto srcObject) => srcObject.day,
+        ): object.meals,
+      },
+      getId: (DayDto object) => object.id,
+      setId: (DayDto object, int id) {
+        object.id = id;
+      },
+      objectToFB: (DayDto object, fb.Builder fbb) {
+        fbb.startTable(9);
+        fbb.addInt64(0, object.id);
+        fbb.addInt64(1, object.weekDay);
+        fbb.addInt64(2, object.dayIndex);
+        fbb.addFloat64(3, object.dayKcal);
+        fbb.addFloat64(4, object.dayProteinG);
+        fbb.addFloat64(5, object.dayFatG);
+        fbb.addFloat64(6, object.dayCarbsG);
+        fbb.addInt64(7, object.plan.targetId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final weekDayParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final dayIndexParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          8,
+          0,
+        );
+        final dayKcalParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          10,
+          0,
+        );
+        final dayProteinGParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          12,
+          0,
+        );
+        final dayFatGParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          14,
+          0,
+        );
+        final dayCarbsGParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          0,
+        );
+        final object = DayDto(
+          id: idParam,
+          weekDay: weekDayParam,
+          dayIndex: dayIndexParam,
+          dayKcal: dayKcalParam,
+          dayProteinG: dayProteinGParam,
+          dayFatG: dayFatGParam,
+          dayCarbsG: dayCarbsGParam,
+        );
+        object.plan.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          18,
+          0,
+        );
+        object.plan.attach(store);
+        obx_int.InternalToManyAccess.setRelInfo<DayDto>(
+          object.meals,
+          store,
+          obx_int.RelInfo<MealDto>.toOneBacklink(
+            10,
+            object.id,
+            (MealDto srcObject) => srcObject.day,
+          ),
+        );
+        return object;
+      },
+    ),
+    MealDto: obx_int.EntityDefinition<MealDto>(
+      model: _entities[2],
+      toOneRelations: (MealDto object) => [object.day],
+      toManyRelations: (MealDto object) => {},
+      getId: (MealDto object) => object.id,
+      setId: (MealDto object, int id) {
+        object.id = id;
+      },
+      objectToFB: (MealDto object, fb.Builder fbb) {
+        final mealTypeOffset = fbb.writeString(object.mealType);
+        final titleOffset = fbb.writeString(object.title);
+        final ingredientsJsonOffset = fbb.writeString(object.ingredientsJson);
+        final stepsJsonOffset = fbb.writeString(object.stepsJson);
+        fbb.startTable(11);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, mealTypeOffset);
+        fbb.addOffset(2, titleOffset);
+        fbb.addOffset(3, ingredientsJsonOffset);
+        fbb.addOffset(4, stepsJsonOffset);
+        fbb.addFloat64(5, object.kcal);
+        fbb.addFloat64(6, object.proteinG);
+        fbb.addFloat64(7, object.fatG);
+        fbb.addFloat64(8, object.carbsG);
+        fbb.addInt64(9, object.day.targetId);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final mealTypeParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final titleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final ingredientsJsonParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final stepsJsonParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 12, '');
+        final kcalParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          14,
+          0,
+        );
+        final proteinGParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          16,
+          0,
+        );
+        final fatGParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          18,
+          0,
+        );
+        final carbsGParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          20,
+          0,
+        );
+        final object = MealDto(
+          id: idParam,
+          mealType: mealTypeParam,
+          title: titleParam,
+          ingredientsJson: ingredientsJsonParam,
+          stepsJson: stepsJsonParam,
+          kcal: kcalParam,
+          proteinG: proteinGParam,
+          fatG: fatGParam,
+          carbsG: carbsGParam,
+        );
+        object.day.targetId = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          22,
+          0,
+        );
+        object.day.attach(store);
+        return object;
+      },
+    ),
+    PlanDto: obx_int.EntityDefinition<PlanDto>(
+      model: _entities[3],
+      toOneRelations: (PlanDto object) => [],
+      toManyRelations: (PlanDto object) => {
+        obx_int.RelInfo<DayDto>.toOneBacklink(
+          8,
+          object.id,
+          (DayDto srcObject) => srcObject.plan,
+        ): object.days,
+      },
+      getId: (PlanDto object) => object.id,
+      setId: (PlanDto object, int id) {
+        object.id = id;
+      },
+      objectToFB: (PlanDto object, fb.Builder fbb) {
+        final goalOffset = fbb.writeString(object.goal);
+        final excludedFoodsJsonOffset = fbb.writeString(
+          object.excludedFoodsJson,
+        );
+        final dayIdsCsvOffset = fbb.writeString(object.dayIdsCsv);
+        final nameOffset = fbb.writeString(object.name);
+        fbb.startTable(9);
+        fbb.addInt64(0, object.id);
+        fbb.addInt64(1, object.metaDays);
+        fbb.addOffset(2, goalOffset);
+        fbb.addOffset(3, excludedFoodsJsonOffset);
+        fbb.addOffset(4, dayIdsCsvOffset);
+        fbb.addInt64(5, object.createdAtMs);
+        fbb.addOffset(6, nameOffset);
+        fbb.addBool(7, object.isActive);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 16, '');
+        final isActiveParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          18,
+          false,
+        );
+        final metaDaysParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          6,
+          0,
+        );
+        final goalParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final excludedFoodsJsonParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final dayIdsCsvParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 12, '');
+        final createdAtMsParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          14,
+          0,
+        );
+        final object = PlanDto(
+          id: idParam,
+          name: nameParam,
+          isActive: isActiveParam,
+          metaDays: metaDaysParam,
+          goal: goalParam,
+          excludedFoodsJson: excludedFoodsJsonParam,
+          dayIdsCsv: dayIdsCsvParam,
+          createdAtMs: createdAtMsParam,
+        );
+        obx_int.InternalToManyAccess.setRelInfo<PlanDto>(
+          object.days,
+          store,
+          obx_int.RelInfo<DayDto>.toOneBacklink(
+            8,
+            object.id,
+            (DayDto srcObject) => srcObject.plan,
+          ),
+        );
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
 }
 
-/// [BodyProfileEntity] entity fields to define ObjectBox queries.
-class BodyProfileEntity_ {
-  /// See [BodyProfileEntity.id].
-  static final id = obx.QueryIntegerProperty<BodyProfileEntity>(
+/// [BodyProfileDto] entity fields to define ObjectBox queries.
+class BodyProfileDto_ {
+  /// See [BodyProfileDto.id].
+  static final id = obx.QueryIntegerProperty<BodyProfileDto>(
     _entities[0].properties[0],
   );
 
-  /// See [BodyProfileEntity.heightCm].
-  static final heightCm = obx.QueryDoubleProperty<BodyProfileEntity>(
+  /// See [BodyProfileDto.heightCm].
+  static final heightCm = obx.QueryDoubleProperty<BodyProfileDto>(
     _entities[0].properties[1],
   );
 
-  /// See [BodyProfileEntity.weightKg].
-  static final weightKg = obx.QueryDoubleProperty<BodyProfileEntity>(
+  /// See [BodyProfileDto.weightKg].
+  static final weightKg = obx.QueryDoubleProperty<BodyProfileDto>(
     _entities[0].properties[2],
   );
 
-  /// See [BodyProfileEntity.age].
-  static final age = obx.QueryIntegerProperty<BodyProfileEntity>(
+  /// See [BodyProfileDto.age].
+  static final age = obx.QueryIntegerProperty<BodyProfileDto>(
     _entities[0].properties[3],
   );
+}
+
+/// [DayDto] entity fields to define ObjectBox queries.
+class DayDto_ {
+  /// See [DayDto.id].
+  static final id = obx.QueryIntegerProperty<DayDto>(
+    _entities[1].properties[0],
+  );
+
+  /// See [DayDto.weekDay].
+  static final weekDay = obx.QueryIntegerProperty<DayDto>(
+    _entities[1].properties[1],
+  );
+
+  /// See [DayDto.dayIndex].
+  static final dayIndex = obx.QueryIntegerProperty<DayDto>(
+    _entities[1].properties[2],
+  );
+
+  /// See [DayDto.dayKcal].
+  static final dayKcal = obx.QueryDoubleProperty<DayDto>(
+    _entities[1].properties[3],
+  );
+
+  /// See [DayDto.dayProteinG].
+  static final dayProteinG = obx.QueryDoubleProperty<DayDto>(
+    _entities[1].properties[4],
+  );
+
+  /// See [DayDto.dayFatG].
+  static final dayFatG = obx.QueryDoubleProperty<DayDto>(
+    _entities[1].properties[5],
+  );
+
+  /// See [DayDto.dayCarbsG].
+  static final dayCarbsG = obx.QueryDoubleProperty<DayDto>(
+    _entities[1].properties[6],
+  );
+
+  /// See [DayDto.plan].
+  static final plan = obx.QueryRelationToOne<DayDto, PlanDto>(
+    _entities[1].properties[7],
+  );
+
+  /// see [DayDto.meals]
+  static final meals = obx.QueryBacklinkToMany<MealDto, DayDto>(MealDto_.day);
+}
+
+/// [MealDto] entity fields to define ObjectBox queries.
+class MealDto_ {
+  /// See [MealDto.id].
+  static final id = obx.QueryIntegerProperty<MealDto>(
+    _entities[2].properties[0],
+  );
+
+  /// See [MealDto.mealType].
+  static final mealType = obx.QueryStringProperty<MealDto>(
+    _entities[2].properties[1],
+  );
+
+  /// See [MealDto.title].
+  static final title = obx.QueryStringProperty<MealDto>(
+    _entities[2].properties[2],
+  );
+
+  /// See [MealDto.ingredientsJson].
+  static final ingredientsJson = obx.QueryStringProperty<MealDto>(
+    _entities[2].properties[3],
+  );
+
+  /// See [MealDto.stepsJson].
+  static final stepsJson = obx.QueryStringProperty<MealDto>(
+    _entities[2].properties[4],
+  );
+
+  /// See [MealDto.kcal].
+  static final kcal = obx.QueryDoubleProperty<MealDto>(
+    _entities[2].properties[5],
+  );
+
+  /// See [MealDto.proteinG].
+  static final proteinG = obx.QueryDoubleProperty<MealDto>(
+    _entities[2].properties[6],
+  );
+
+  /// See [MealDto.fatG].
+  static final fatG = obx.QueryDoubleProperty<MealDto>(
+    _entities[2].properties[7],
+  );
+
+  /// See [MealDto.carbsG].
+  static final carbsG = obx.QueryDoubleProperty<MealDto>(
+    _entities[2].properties[8],
+  );
+
+  /// See [MealDto.day].
+  static final day = obx.QueryRelationToOne<MealDto, DayDto>(
+    _entities[2].properties[9],
+  );
+}
+
+/// [PlanDto] entity fields to define ObjectBox queries.
+class PlanDto_ {
+  /// See [PlanDto.id].
+  static final id = obx.QueryIntegerProperty<PlanDto>(
+    _entities[3].properties[0],
+  );
+
+  /// See [PlanDto.metaDays].
+  static final metaDays = obx.QueryIntegerProperty<PlanDto>(
+    _entities[3].properties[1],
+  );
+
+  /// See [PlanDto.goal].
+  static final goal = obx.QueryStringProperty<PlanDto>(
+    _entities[3].properties[2],
+  );
+
+  /// See [PlanDto.excludedFoodsJson].
+  static final excludedFoodsJson = obx.QueryStringProperty<PlanDto>(
+    _entities[3].properties[3],
+  );
+
+  /// See [PlanDto.dayIdsCsv].
+  static final dayIdsCsv = obx.QueryStringProperty<PlanDto>(
+    _entities[3].properties[4],
+  );
+
+  /// See [PlanDto.createdAtMs].
+  static final createdAtMs = obx.QueryIntegerProperty<PlanDto>(
+    _entities[3].properties[5],
+  );
+
+  /// See [PlanDto.name].
+  static final name = obx.QueryStringProperty<PlanDto>(
+    _entities[3].properties[6],
+  );
+
+  /// See [PlanDto.isActive].
+  static final isActive = obx.QueryBooleanProperty<PlanDto>(
+    _entities[3].properties[7],
+  );
+
+  /// see [PlanDto.days]
+  static final days = obx.QueryBacklinkToMany<DayDto, PlanDto>(DayDto_.plan);
 }

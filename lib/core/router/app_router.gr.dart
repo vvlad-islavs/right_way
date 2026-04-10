@@ -11,6 +11,22 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [AppSettingsScreen]
+class AppSettingsRoute extends PageRouteInfo<void> {
+  const AppSettingsRoute({List<PageRouteInfo>? children})
+    : super(AppSettingsRoute.name, initialChildren: children);
+
+  static const String name = 'AppSettingsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AppSettingsScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [BodyInfoScreen]
 class BodyInfoRoute extends PageRouteInfo<void> {
   const BodyInfoRoute({List<PageRouteInfo>? children})
@@ -38,22 +54,6 @@ class NutritionSettingsRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const NutritionSettingsScreen();
-    },
-  );
-}
-
-/// generated route for
-/// [ProgressScreen]
-class ProgressRoute extends PageRouteInfo<void> {
-  const ProgressRoute({List<PageRouteInfo>? children})
-    : super(ProgressRoute.name, initialChildren: children);
-
-  static const String name = 'ProgressRoute';
-
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      return const ProgressScreen();
     },
   );
 }
