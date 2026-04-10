@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:right_way/core/network/api_client.dart';
 
+/// Реализация [ApiClient] на базе пакета Dio.
 class DioApiClient implements ApiClient {
+  /// [dio] используется для всех HTTP-запросов этого клиента.
   DioApiClient(this._dio);
 
   final Dio _dio;
 
+  /// POST через Dio; пустое тело ответа заменяется на пустую карту.
   @override
   Future<Map<String, dynamic>> postJson(
     String path, {

@@ -150,38 +150,20 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
                   ),
                 ),
               ),
-              const Gap(12),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: TextField(
-                    minLines: 2,
-                    maxLines: 4,
-                    focusNode: _notesFocusNode,
-                    controller: _notesController,
-                    decoration: const InputDecoration(
-                      labelText: 'Доп. параметры / заметки',
-                      border: OutlineInputBorder(),
-                    ),
-                    onSubmitted: (v) => _handleNotesChanged(v),
-                    onEditingComplete: () => _handleNotesChanged(_notesController.text),
-                    onTapOutside: (_) => _handleNotesChanged(_notesController.text),
-                  ),
-                ),
-              ),
-              const Gap(16),
+
+              const Gap(24),
               FilledButton(
                 onPressed: state.isLoading
                     ? null
                     : () => context.read<NutritionSettingsBloc>().add(const NutritionSettingsEvent.calculate()),
                 child: state.isLoading ? const CircularProgressIndicator() : const Text('Рассчитать'),
               ),
-              if (state.result != null) ...[
-                const Gap(16),
-                Card(
-                  child: Padding(padding: const EdgeInsets.all(12), child: Text('Ответ API: ${state.result!.rawJson}')),
-                ),
-              ],
+              // if (state.result != null) ...[
+              //   const Gap(16),
+              //   Card(
+              //     child: Padding(padding: const EdgeInsets.all(12), child: Text('Ответ API: ${state.result!.rawJson}')),
+              //   ),
+              // ],
             ],
           );
         },

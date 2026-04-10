@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// Softer, rounded Material 3 themes (less harsh than default seed-only).
+/// Светлая и темная темы Material 3: мягкие скругления и общие настройки виджетов.
 abstract final class AppThemes {
   static const _seed = Color(0xFF5C8F89);
 
+  /// Общая сборка [ThemeData] из готовой [scheme] (кнопки, поля, навигация).
   static ThemeData _build(ColorScheme scheme) {
     return ThemeData(
       useMaterial3: true,
@@ -75,6 +76,7 @@ abstract final class AppThemes {
     );
   }
 
+  /// Светлая тема на основе семени [_seed].
   static ThemeData get lightTheme {
     final scheme = ColorScheme.fromSeed(
       seedColor: _seed,
@@ -84,6 +86,7 @@ abstract final class AppThemes {
     return _build(scheme);
   }
 
+  /// Темная тема на основе семени [_seed].
   static ThemeData get darkTheme {
     final scheme = ColorScheme.fromSeed(
       seedColor: _seed,

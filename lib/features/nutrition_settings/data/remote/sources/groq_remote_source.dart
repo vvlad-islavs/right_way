@@ -7,18 +7,23 @@ import 'package:right_way/features/nutrition_settings/domain/domain.dart';
 import 'nutrition_plan_prompt_text.dart';
 import 'nutrition_settings_remote_source.dart';
 
+/// [NutritionSettingsRemoteSource] для Groq: при длинном плане режет запросы на части и склеивает JSON.
 class GroqRemoteSource implements NutritionSettingsRemoteSource {
+  /// Первый аргумент: HTTP-клиент Dio; [log] для журнала запросов по частям.
   GroqRemoteSource(this._dio, {required LogService log}) : _log = log;
 
   final Dio _dio;
   final LogService _log;
 
+  /// Всегда [AiProvider.groq].
   @override
   AiProvider get provider => AiProvider.groq;
 
+  /// Список из [supportedAiModels] для Groq.
   @override
   List<String> get supportedModels => supportedAiModels(provider);
 
+  /// Один запрос при коротком плане; иначе параллельные куски по дням и слияние поля `plan`.
   @override
   Future<NutritionPlanResult> calculate(
     NutritionSettings settings, {
@@ -93,6 +98,7 @@ class GroqRemoteSource implements NutritionSettingsRemoteSource {
     );
   }
 
+  /// Один POST к Groq для [settings] с заданным [apiKey] и [model].
   Future<Map<String, dynamic>> _requestPlan(
     NutritionSettings settings, {
     required String apiKey,
@@ -126,7 +132,7 @@ class GroqRemoteSource implements NutritionSettingsRemoteSource {
     }
   }
 
-  /// Extract the first top-level JSON object from arbitrary text.
+  /// Выделяет первый JSON-объект верхнего уровня из произвольного текста модели.
   String _extractJsonObjectText(String text) {
     final start = text.indexOf('{');
     if (start == -1) return text.trim();
@@ -162,6 +168,7 @@ class GroqRemoteSource implements NutritionSettingsRemoteSource {
     return text.substring(start).trim();
   }
 
+  /// Текст ответа из `choices[0].message.content` тела Groq.
   String _extractText(Map<String, dynamic>? data) {
     if (data == null) throw const FormatException('Empty Groq response');
     final choices = data['choices'];
@@ -178,6 +185,7 @@ class GroqRemoteSource implements NutritionSettingsRemoteSource {
     throw const FormatException('Groq response text missing');
   }
 
+  /// Промпт в стиле Groq из [settings].
   String _prompt(NutritionSettings settings) {
     final excluded = settings.excludedFoods.isEmpty
         ? 'нет'

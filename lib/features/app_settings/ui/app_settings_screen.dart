@@ -16,9 +16,14 @@ class AppSettingsScreen extends StatelessWidget {
   }
 }
 
-class _AppSettingsScaffold extends StatelessWidget {
+class _AppSettingsScaffold extends StatefulWidget {
   const _AppSettingsScaffold();
 
+  @override
+  State<_AppSettingsScaffold> createState() => _AppSettingsScaffoldState();
+}
+
+class _AppSettingsScaffoldState extends State<_AppSettingsScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,39 +155,39 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                 },
               ),
               const Gap(12),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Opacity(
-                        opacity: switching ? 0.45 : 1,
-                        child: IgnorePointer(
-                          ignoring: switching,
-                          child: DropdownButtonFormField<AiProvider>(
-                            key: ValueKey('provider:${snap.provider.id}'),
-                            initialValue: snap.provider,
-                            decoration: const InputDecoration(labelText: 'Провайдер', border: OutlineInputBorder()),
-                            items: AiProvider.values
-                                .map((p) => DropdownMenuItem(value: p, child: Text(p.title)))
-                                .toList(growable: false),
-                            onChanged: switching
-                                ? null
-                                : (v) {
-                                    if (v == null) return;
-                                    context.read<AppSettingsCubit>().selectProvider(v);
-                                  },
-                          ),
-                        ),
-                      ),
-                      if (switching)
-                        const SizedBox(width: 28, height: 28, child: CircularProgressIndicator(strokeWidth: 2)),
-                    ],
-                  ),
-                ),
-              ),
-              const Gap(12),
+              // Card(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(12),
+              //     child: Stack(
+              //       alignment: Alignment.center,
+              //       children: [
+              //         Opacity(
+              //           opacity: switching ? 0.45 : 1,
+              //           child: IgnorePointer(
+              //             ignoring: switching,
+              //             child: DropdownButtonFormField<AiProvider>(
+              //               key: ValueKey('provider:${snap.provider.id}'),
+              //               initialValue: snap.provider,
+              //               decoration: const InputDecoration(labelText: 'Провайдер', border: OutlineInputBorder()),
+              //               items: AiProvider.values
+              //                   .map((p) => DropdownMenuItem(value: p, child: Text(p.title)))
+              //                   .toList(growable: false),
+              //               onChanged: switching
+              //                   ? null
+              //                   : (v) {
+              //                       if (v == null) return;
+              //                       context.read<AppSettingsCubit>().selectProvider(v);
+              //                     },
+              //             ),
+              //           ),
+              //         ),
+              //         if (switching)
+              //           const SizedBox(width: 28, height: 28, child: CircularProgressIndicator(strokeWidth: 2)),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // const Gap(12),
               Builder(
                 builder: (context) {
                   final models = supportedAiModels(snap.provider);

@@ -6,7 +6,9 @@ import 'package:right_way/features/today_plan/data/local/mappers/mappers.dart';
 import 'package:right_way/features/today_plan/data/local/models/models.dart';
 import 'package:right_way/features/today_plan/domain/domain.dart';
 
+/// [TodayPlanLocalSource] на ObjectBox: планы, дни и приемы в транзакциях.
 class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
+  /// Подключает боксы планов, дней и приемов из [store].
   ObjectBoxTodayPlanLocalSource(ObjectBoxStore store)
       : _store = store.store,
         _planBox = store.store.box<PlanDto>(),
@@ -18,6 +20,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
   final Box<DayDto> _dayBox;
   final Box<MealDto> _mealBox;
 
+  /// Единственный активный план, иначе самый новый по [createdAtMs]; null если планов нет.
   PlanDto? _resolvedPlanDto() {
     final all = _planBox.getAll();
     if (all.isEmpty) return null;
@@ -27,6 +30,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
     return all.first;
   }
 
+  /// См. [TodayPlanLocalSource.persistFromAiResponse].
   @override
   Future<void> persistFromAiResponse(Map<String, dynamic> rawJson, String planName) async {
     final meta = _asStringKeyedMap(rawJson['meta']);
@@ -117,6 +121,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
     });
   }
 
+  /// См. [TodayPlanLocalSource.loadActivePlanDayForWeekday].
   @override
   Future<DayEntity?> loadActivePlanDayForWeekday(int weekDay) async {
     final plan = _resolvedPlanDto();
@@ -127,6 +132,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
     return match.first.toEntity();
   }
 
+  /// См. [TodayPlanLocalSource.loadActivePlanAllDaysSorted].
   @override
   Future<List<DayEntity>> loadActivePlanAllDaysSorted() async {
     final plan = _resolvedPlanDto();
@@ -135,6 +141,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
     return list.map((d) => d.toEntity()).toList();
   }
 
+  /// См. [TodayPlanLocalSource.listPlans].
   @override
   Future<List<PlanSummary>> listPlans() async {
     final all = _planBox.getAll();
@@ -151,6 +158,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
         .toList();
   }
 
+  /// См. [TodayPlanLocalSource.setActivePlanId].
   @override
   Future<void> setActivePlanId(int planId) async {
     final snapshot = _planBox.getAll();
@@ -169,6 +177,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
     });
   }
 
+  /// См. [TodayPlanLocalSource.resolvedActivePlanTitle].
   @override
   Future<String?> resolvedActivePlanTitle() async {
     final p = _resolvedPlanDto();
@@ -177,6 +186,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
     return n.isEmpty ? 'План #${p.id}' : n;
   }
 
+  /// См. [TodayPlanLocalSource.deletePlan].
   @override
   Future<void> deletePlan(int planId) async {
     final existing = _planBox.get(planId);
@@ -197,6 +207,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
   }
 }
 
+/// Приводит [v] к `Map<String, dynamic>` или null.
 Map<String, dynamic>? _asStringKeyedMap(Object? v) {
   if (v is Map<String, dynamic>) return v;
   if (v is Map) {
@@ -205,6 +216,7 @@ Map<String, dynamic>? _asStringKeyedMap(Object? v) {
   return null;
 }
 
+/// Безопасное извлечение [double] из числа или строки.
 double _asDouble(Object? v) {
   if (v is num) return v.toDouble();
   if (v is String) return double.tryParse(v) ?? 0;

@@ -4,7 +4,9 @@ import 'package:right_way/core/logging/logging.dart';
 
 import 'app_errors.dart';
 
+/// Нормализованная ошибка для UI (кратко) и для логов (подробно).
 class AppError {
+  /// [uiMessage] для интерфейса; [debugMessage], [cause] и [stackTrace] для диагностики.
   const AppError({
     required this.uiMessage,
     this.debugMessage,
@@ -17,13 +19,20 @@ class AppError {
 
   /// Подробности для логов (полный контекст).
   final String? debugMessage;
+
+  /// Исходное исключение, если было.
   final Object? cause;
+
+  /// Стек исходной ошибки, если был передан.
   final StackTrace? stackTrace;
 }
 
+/// Публикация ошибок: подписка через [stream] и явные вызовы [report] / [reportMessage].
 abstract interface class ErrorReporter {
+  /// Поток ошибок для Snackbar, диалогов и глобального обработчика.
   Stream<AppError> get stream;
 
+  /// Зафиксировать исключение [error] со стеком; [uiMessage] для пользователя, [logMessage] в лог.
   void report(
     Object error,
     StackTrace stackTrace, {
@@ -31,19 +40,23 @@ abstract interface class ErrorReporter {
     String? logMessage,
   });
 
+  /// Сообщение без объекта-исключения, только текст для UI и опционально для лога.
   void reportMessage({required String uiMessage, String? logMessage});
 }
 
-/// Дублирует ошибку в [LogService] (полный текст) и в стрим (краткий UI + debug в подписи к логу).
+/// [ErrorReporter]: пишет в [LogService] и дублирует событие в широковещательный [stream].
 class StreamErrorReporter implements ErrorReporter {
+  /// [log] получает полные сообщения об ошибках.
   StreamErrorReporter({required LogService log}) : _log = log;
 
   final _controller = StreamController<AppError>.broadcast();
   final LogService _log;
 
+  /// Поток из внутреннего broadcast-контроллера (повторный broadcast для подписчиков).
   @override
   Stream<AppError> get stream => _controller.stream.asBroadcastStream();
 
+  /// Логирует [logMessage] или текст [error], публикует [AppError] в [stream].
   @override
   void report(
     Object error,
@@ -71,6 +84,7 @@ class StreamErrorReporter implements ErrorReporter {
     );
   }
 
+  /// Без исключения: лог и событие только по строкам [uiMessage] и [logMessage].
   @override
   void reportMessage({required String uiMessage, String? logMessage}) {
     final ui = uiMessage.trim().isEmpty ? AppErrors.genericUi : uiMessage.trim();
@@ -80,6 +94,7 @@ class StreamErrorReporter implements ErrorReporter {
     _controller.add(AppError(uiMessage: ui, debugMessage: logMsg));
   }
 
+  /// Закрывает [stream], после вызова подписки не получают событий.
   Future<void> dispose() async {
     await _controller.close();
   }

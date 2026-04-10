@@ -5,19 +5,23 @@ import 'package:right_way/features/nutrition_settings/domain/domain.dart';
 import 'nutrition_plan_prompt_text.dart';
 import 'nutrition_settings_remote_source.dart';
 
-
+/// [NutritionSettingsRemoteSource] для Google Gemini: структурированный JSON по схеме плана.
 class GeminiRemoteSource implements NutritionSettingsRemoteSource {
+  /// Первый аргумент: HTTP-клиент Dio; [log] для диагностических сообщений.
   GeminiRemoteSource(this._dio, {required LogService log}) : _log = log;
 
   final Dio _dio;
   final LogService _log;
 
+  /// Всегда [AiProvider.gemini].
   @override
   AiProvider get provider => AiProvider.gemini;
 
+  /// Список из [supportedAiModels] для Gemini.
   @override
   List<String> get supportedModels => supportedAiModels(provider);
 
+  /// Запрос generateContent со схемой ответа; при пустом [apiKey] бросает [AppErrors.missingApiKey].
   @override
   Future<NutritionPlanResult> calculate(
     NutritionSettings settings, {
@@ -43,6 +47,7 @@ class GeminiRemoteSource implements NutritionSettingsRemoteSource {
     }
   }
 
+  /// Один вызов API: [prompt], [schema], ключ и [model]; возвращает распарсенный JSON-объект.
   Future<Map<String, dynamic>> _generateStructuredJson({
     required String prompt,
     required Map<String, dynamic> schema,
@@ -81,6 +86,7 @@ class GeminiRemoteSource implements NutritionSettingsRemoteSource {
     return GeminiHelpers.decodeJsonObject(jsonText);
   }
 
+  /// Текст промпта из полей [settings] для модели Gemini.
   String _prompt(NutritionSettings settings) {
     final excluded = settings.excludedFoods.isEmpty
         ? 'нет'

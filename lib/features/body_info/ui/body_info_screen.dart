@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:right_way/core/core.dart';
@@ -34,13 +35,15 @@ class _BodyInfoView extends StatelessWidget {
               _FieldTile(
                 label: 'Рост (см)',
                 value: state.heightText,
-                onSave: (raw) => context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.heightCm, raw: raw)),
+                onSave: (raw) =>
+                    context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.heightCm, raw: raw)),
               ),
               const Gap(12),
               _FieldTile(
                 label: 'Вес (кг)',
                 value: state.weightText,
-                onSave: (raw) => context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.weightKg, raw: raw)),
+                onSave: (raw) =>
+                    context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.weightKg, raw: raw)),
               ),
               const Gap(12),
               _FieldTile(
@@ -62,11 +65,7 @@ class _BodyInfoView extends StatelessWidget {
 }
 
 class _FieldTile extends StatelessWidget {
-  const _FieldTile({
-    required this.label,
-    required this.value,
-    required this.onSave,
-  });
+  const _FieldTile({required this.label, required this.value, required this.onSave});
 
   final String label;
   final String value;
@@ -79,11 +78,7 @@ class _FieldTile extends StatelessWidget {
 }
 
 class _ControlledFieldTile extends StatefulWidget {
-  const _ControlledFieldTile({
-    required this.label,
-    required this.value,
-    required this.onSave,
-  });
+  const _ControlledFieldTile({required this.label, required this.value, required this.onSave});
 
   final String label;
   final String value;
@@ -134,6 +129,7 @@ class _ControlledFieldTileState extends State<_ControlledFieldTile> {
           decoration: InputDecoration(labelText: widget.label, border: const OutlineInputBorder()),
           keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
           textInputAction: TextInputAction.done,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           controller: _controller,
           onEditingComplete: _dismissKeyboardAndSave,
           onSubmitted: (_) => _dismissKeyboardAndSave(),

@@ -27,7 +27,7 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
 
   Future<void> selectProvider(AiProvider provider) async {
     final snap = state.snapshot;
-    if (snap == null || snap.provider == provider) return;
+    if (snap?.provider == provider) return;
     emit(state.copyWith(providerSwitching: true, clearFeedback: true));
     try {
       final next = await _useCase.applyProviderSelection(provider);

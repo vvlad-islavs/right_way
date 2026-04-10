@@ -7,20 +7,13 @@ import 'package:right_way/features/body_info/ui/ui.dart';
 class BodyInfoDi {
   static void register(GetIt di) {
     di
-      ..registerLazySingleton<BodyInfoLocalSource>(
-        () => ObjectBoxBodyInfoLocalSource(di<ObjectBoxStore>()),
-      )
-      ..registerLazySingleton<BodyInfoRepo>(
-        () => BodyInfoRepoImpl(di<BodyInfoLocalSource>()),
-      )
-      ..registerLazySingleton<BodyProfileUseCase>(
-        () => BodyProfileUseCase(di<BodyInfoRepo>(), di<ErrorReporter>()),
-      )
+      ..registerLazySingleton<BodyInfoLocalSource>(() => ObjectBoxBodyInfoLocalSource(di<ObjectBoxStore>()))
+      ..registerLazySingleton<BodyInfoRepo>(() => BodyInfoRepoImpl(di<BodyInfoLocalSource>()))
+      ..registerLazySingleton<BodyProfileUseCase>(() => BodyProfileUseCase(di<BodyInfoRepo>(), di<ErrorReporter>()))
       ..registerFactory<BodyInfoBloc>(
-        () => BodyInfoBloc(
-          bodyProfile: di<BodyProfileUseCase>(),
-          errors: di<ErrorReporter>(),
-        )..add(const BodyInfoEvent.started()),
+        () =>
+            BodyInfoBloc(bodyProfile: di<BodyProfileUseCase>(), errors: di<ErrorReporter>())
+              ..add(const BodyInfoEvent.started()),
       );
   }
 }

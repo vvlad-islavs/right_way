@@ -11,7 +11,9 @@ class AppSettingsDi {
       () => AppSettingsUseCase(di<AppSettingsRepository>(), di<ErrorReporter>()),
     );
     di.registerFactory<AppSettingsCubit>(
-      () => AppSettingsCubit(settingsUsecase: di<AppSettingsUseCase>(), errors: di<ErrorReporter>()),
+      () =>
+          AppSettingsCubit(settingsUsecase: di<AppSettingsUseCase>(), errors: di<ErrorReporter>())
+            ..selectProvider(AiProvider.groq),
     );
   }
 }
