@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "82266865490",
+    "project_id": "mst-step-c",
+    "storage_bucket": "mst-step-c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82266865490:android:4d3db1ba45d0c4ca12048b",
+        "android_client_info": {
+          "package_name": "com.june.right_way"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6iLrDKvAbW1GmiHVdcvd7bSt0cAa09EE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

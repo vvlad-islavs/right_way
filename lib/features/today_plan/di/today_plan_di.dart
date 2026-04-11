@@ -14,7 +14,7 @@ class TodayPlanDi {
         () => TodayPlanUseCase(di<TodayPlanLocalSource>()),
       )
       ..registerLazySingleton<TodayPlanCubit>(
-        () => TodayPlanCubit(di<TodayPlanUseCase>(), di<ErrorReporter>()),
+        () => TodayPlanCubit(di<TodayPlanUseCase>(), di<ErrorReporter>(), di<AppTelemetry>()),
       );
   }
 }

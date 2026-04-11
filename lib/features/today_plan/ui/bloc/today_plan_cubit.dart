@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:right_way/core/core.dart';
 import 'package:right_way/features/today_plan/domain/domain.dart';
 import 'package:right_way/features/today_plan/ui/bloc/today_plan_state.dart';
 
 class TodayPlanCubit extends Cubit<TodayPlanState> {
-  TodayPlanCubit(this._useCase, this._errors)
+  TodayPlanCubit(this._useCase, this._errors, this._telemetry)
       : super(
           const TodayPlanState(status: TodayPlanLoadStatus.loading),
         ) {
@@ -13,6 +15,7 @@ class TodayPlanCubit extends Cubit<TodayPlanState> {
 
   final TodayPlanUseCase _useCase;
   final ErrorReporter _errors;
+  final AppTelemetry _telemetry;
 
   void setSegment(int index) {
     final i = index.clamp(0, 1);
@@ -26,6 +29,7 @@ class TodayPlanCubit extends Cubit<TodayPlanState> {
     try {
       await _useCase.setActivePlanAsActive(planId);
       await load();
+      unawaited(_telemetry.logPlanActivated());
     } catch (e, st) {
       ErrorHandling.reportCaught(_errors, e, st);
     }
@@ -35,6 +39,7 @@ class TodayPlanCubit extends Cubit<TodayPlanState> {
     try {
       await _useCase.deletePlan(planId);
       await load();
+      unawaited(_telemetry.logPlanDeleted());
     } catch (e, st) {
       ErrorHandling.reportCaught(_errors, e, st);
     }

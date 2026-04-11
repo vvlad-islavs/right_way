@@ -15,11 +15,13 @@ final GetIt di = GetIt.instance;
 
 class CoreDi {
   static Future<void> init({required ObjectBoxStore objectBox}) async {
-    _registerCore(objectBox: objectBox);
+    await _registerCore(objectBox: objectBox);
     FeaturesDi.register(di);
   }
 
-  static void _registerCore({required ObjectBoxStore objectBox}) {
+  static Future<void> _registerCore({required ObjectBoxStore objectBox}) async {
+    final prefs = await SharedPreferences.getInstance();
+    di.registerSingleton<SharedPreferences>(prefs);
     di.registerSingleton<ObjectBoxStore>(objectBox);
     di.registerLazySingleton<AppThemeController>(() => AppThemeController(di<SharedPreferences>()));
     di.registerLazySingleton<FlutterSecureStorage>(() => const FlutterSecureStorage());
@@ -31,12 +33,7 @@ class CoreDi {
     di.registerLazySingleton<ErrorReporter>(() => StreamErrorReporter(log: di<LogService>()));
     di.registerLazySingleton<Dio>(() {
       final dio = Dio();
-      dio.interceptors.add(
-        DioRetryInterceptor(
-          dio: dio,
-          log: di<LogService>(),
-        ),
-      );
+      dio.interceptors.add(DioRetryInterceptor(dio: dio, log: di<LogService>()));
       return dio;
     });
     di.registerLazySingleton<ApiClient>(() => DioApiClient(di<Dio>()));

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:right_way/core/core.dart';
 import 'package:right_way/features/nutrition_settings/domain/domain.dart';
@@ -8,8 +10,12 @@ class NutritionSettingsBloc extends Bloc<NutritionSettingsEvent, NutritionSettin
   NutritionSettingsBloc({
     required CalculatePlanUseCase calculatePlan,
     required ErrorReporter errors,
+    required AppTelemetry telemetry,
+    required AiSettingsStore aiSettings,
   })  : _calculatePlan = calculatePlan,
         _errors = errors,
+        _telemetry = telemetry,
+        _aiSettings = aiSettings,
         super(NutritionSettingsState.initial()) {
     on<NutritionSettingsSetDays>((e, emit) => emit(state.copyWith(days: e.days)));
     on<NutritionSettingsSetExcluded>((e, emit) => emit(state.copyWith(excludedRaw: e.raw)));
@@ -21,6 +27,8 @@ class NutritionSettingsBloc extends Bloc<NutritionSettingsEvent, NutritionSettin
 
   final CalculatePlanUseCase _calculatePlan;
   final ErrorReporter _errors;
+  final AppTelemetry _telemetry;
+  final AiSettingsStore _aiSettings;
 
   Future<void> _onCalculate(NutritionSettingsCalculate event, Emitter<NutritionSettingsState> emit) async {
     if (state.planName.trim().isEmpty) {
@@ -35,6 +43,8 @@ class NutritionSettingsBloc extends Bloc<NutritionSettingsEvent, NutritionSettin
         .where((e) => e.isNotEmpty)
         .toList(growable: false);
 
+    final provider = await _aiSettings.getSelectedProvider();
+
     try {
       emit(state.copyWith(isLoading: true, result: null));
       final result = await _calculatePlan.call(
@@ -47,8 +57,16 @@ class NutritionSettingsBloc extends Bloc<NutritionSettingsEvent, NutritionSettin
         ),
       );
       emit(state.copyWith(isLoading: false, result: result));
+      unawaited(
+        _telemetry.logPlanGenerated(
+          days: state.days,
+          goal: state.goal.name,
+          aiProvider: provider.id,
+        ),
+      );
     } catch (_) {
       emit(state.copyWith(isLoading: false, result: null));
+      unawaited(_telemetry.logPlanGenerationFailed(aiProvider: provider.id));
     }
   }
 }

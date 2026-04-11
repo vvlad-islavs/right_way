@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:right_way/core/core.dart';
 import 'package:right_way/features/app_settings/domain/domain.dart';
@@ -5,15 +7,20 @@ import 'package:right_way/features/app_settings/domain/domain.dart';
 import 'app_settings_state.dart';
 
 class AppSettingsCubit extends Cubit<AppSettingsState> {
-  AppSettingsCubit({required AppSettingsUseCase settingsUsecase, required ErrorReporter errors})
-    : _errors = errors,
-      _useCase = settingsUsecase,
-      super(const AppSettingsState.loading()) {
+  AppSettingsCubit({
+    required AppSettingsUseCase settingsUsecase,
+    required ErrorReporter errors,
+    required AppTelemetry telemetry,
+  }) : _errors = errors,
+       _useCase = settingsUsecase,
+       _telemetry = telemetry,
+       super(const AppSettingsState.loading()) {
     load();
   }
 
   final AppSettingsUseCase _useCase;
   final ErrorReporter _errors;
+  final AppTelemetry _telemetry;
 
   Future<void> load() async {
     emit(const AppSettingsState.loading());
@@ -32,6 +39,7 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
     try {
       final next = await _useCase.applyProviderSelection(provider);
       emit(state.copyWith(status: AppSettingsLoadStatus.ready, snapshot: next, providerSwitching: false));
+      unawaited(_telemetry.logAiProviderChanged(provider.id));
     } catch (_) {
       emit(state.copyWith(providerSwitching: false));
     }
@@ -61,6 +69,7 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
     try {
       final refreshed = await _useCase.saveAiSettings(provider: snap.provider, apiKey: apiKeyText, model: snap.model);
       emit(AppSettingsState(status: AppSettingsLoadStatus.ready, snapshot: refreshed, feedback: 'Сохранено'));
+      unawaited(_telemetry.logAiSettingsSaved(snap.provider.id));
     } catch (_) {
       final err = AppErrors.failedSaveLocalData();
       _errors.reportMessage(uiMessage: err.uiMessage, logMessage: err.logMessage);

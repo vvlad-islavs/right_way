@@ -4,10 +4,7 @@ import 'package:right_way/core/core.dart';
 import 'app_initializer.dart';
 
 class App extends StatefulWidget {
-  const App({
-    required this.appInitializer,
-    super.key,
-  });
+  const App({required this.appInitializer, super.key});
 
   final AppInitializer appInitializer;
 
@@ -37,7 +34,9 @@ class _AppState extends State<App> {
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,
           themeMode: _theme.mode,
-          routerConfig: _router.config(),
+          routerConfig: _router.config(
+            navigatorObservers: () => [if (di<AppTelemetry>() != null) TelemetryNavigatorObserver(di<AppTelemetry>())],
+          ),
         );
       },
     );

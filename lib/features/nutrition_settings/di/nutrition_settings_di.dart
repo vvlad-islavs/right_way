@@ -30,6 +30,8 @@ class NutritionSettingsDi {
         () => NutritionSettingsBloc(
           calculatePlan: di<CalculatePlanUseCase>(),
           errors: di<ErrorReporter>(),
+          telemetry: di<AppTelemetry>(),
+          aiSettings: di<AiSettingsStore>(),
         ),
       );
   }

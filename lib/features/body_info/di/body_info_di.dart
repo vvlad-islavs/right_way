@@ -12,8 +12,11 @@ class BodyInfoDi {
       ..registerLazySingleton<BodyProfileUseCase>(() => BodyProfileUseCase(di<BodyInfoRepo>(), di<ErrorReporter>()))
       ..registerFactory<BodyInfoBloc>(
         () =>
-            BodyInfoBloc(bodyProfile: di<BodyProfileUseCase>(), errors: di<ErrorReporter>())
-              ..add(const BodyInfoEvent.started()),
+            BodyInfoBloc(
+              bodyProfile: di<BodyProfileUseCase>(),
+              errors: di<ErrorReporter>(),
+              telemetry: di<AppTelemetry>(),
+            )..add(const BodyInfoEvent.started()),
       );
   }
 }

@@ -13,11 +13,10 @@ class AppInitializer {
     talker = TalkerFlutter.init();
     di.registerSingleton<Talker>(talker);
     Bloc.observer = TalkerBlocObserver(talker: talker);
-    final prefs = await SharedPreferences.getInstance();
-    di.registerSingleton<SharedPreferences>(prefs);
     objectBox = await ObjectBoxStore.create();
     await CoreDi.init(objectBox: objectBox);
+    await TelemetryBootstrap.init(talker, enableTalker: false, enable: false);
+    TelemetryBootstrap.wireErrorReporter();
     router = AppRouter();
   }
 }
-

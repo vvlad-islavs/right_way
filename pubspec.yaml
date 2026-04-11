@@ -46,6 +46,11 @@ dependencies:
   objectbox_flutter_libs: ^5.3.1
   talker_flutter: ^5.1.16
   talker_bloc_logger: ^5.1.16
+  firebase_core: ^4.6.0
+  firebase_analytics: ^12.2.0
+  firebase_crashlytics: ^5.1.0
+  appsflyer_sdk: ^6.17.9
+  appmetrica_plugin: ^4.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,18 +1,25 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:right_way/core/core.dart';
 import 'package:right_way/features/body_info/body_info.dart';
 
 class BodyInfoBloc extends Bloc<BodyInfoEvent, BodyInfoState> {
-  BodyInfoBloc({required BodyProfileUseCase bodyProfile, required ErrorReporter errors})
-    : _bodyProfile = bodyProfile,
-      _errors = errors,
-      super(BodyInfoState.initial()) {
+  BodyInfoBloc({
+    required BodyProfileUseCase bodyProfile,
+    required ErrorReporter errors,
+    required AppTelemetry telemetry,
+  })  : _bodyProfile = bodyProfile,
+        _errors = errors,
+        _telemetry = telemetry,
+        super(BodyInfoState.initial()) {
     on<BodyInfoStarted>(_onStarted);
     on<BodyInfoSave>(_onSave);
   }
 
   final BodyProfileUseCase _bodyProfile;
   final ErrorReporter _errors;
+  final AppTelemetry _telemetry;
 
   Future<void> _onStarted(BodyInfoStarted event, Emitter<BodyInfoState> emit) async {
     try {
@@ -55,9 +62,11 @@ class BodyInfoBloc extends Bloc<BodyInfoEvent, BodyInfoState> {
           ageText: profile.age.toString(),
         ),
       );
+      unawaited(_telemetry.logBodySaved(field: event.field.name));
     } catch (_) {
       final err = AppErrors.failedSaveLocalData();
       _errors.reportMessage(uiMessage: err.uiMessage, logMessage: err.logMessage);
+      unawaited(_telemetry.logBodySaveFailed(field: event.field.name));
     }
   }
 }
