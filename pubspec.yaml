@@ -51,6 +51,7 @@ dependencies:
   firebase_crashlytics: ^5.1.0
   appsflyer_sdk: ^6.17.9
   appmetrica_plugin: ^4.0.0
+  app_tracking_transparency: ^2.0.6+1
 
 dev_dependencies:
   flutter_test:

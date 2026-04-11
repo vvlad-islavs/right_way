@@ -38,7 +38,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '82266865490',
     projectId: 'mst-step-c',
     storageBucket: 'mst-step-c.firebasestorage.app',
-    iosBundleId: 'com.example.rightWay',
+    iosBundleId: 'com.nicfuno.sonicforgeflow',
   );
 
   /// Должно совпадать с `ios/Runner/GoogleService-Info.plist` (GOOGLE_APP_ID, BUNDLE_ID).

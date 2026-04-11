@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:right_way/core/core.dart';
@@ -15,7 +14,7 @@ class AppInitializer {
     Bloc.observer = TalkerBlocObserver(talker: talker);
     objectBox = await ObjectBoxStore.create();
     await CoreDi.init(objectBox: objectBox);
-    await TelemetryBootstrap.init(talker, enableTalker: false, enable: false);
+    await TelemetryBootstrap.init(talker, enableTalker: true, enable: true);
     TelemetryBootstrap.wireErrorReporter();
     router = AppRouter();
   }

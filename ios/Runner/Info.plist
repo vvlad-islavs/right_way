@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Это помогает показывать релевантную рекламу и оценивать эффективность компаний.</string>
 </dict>
 </plist>

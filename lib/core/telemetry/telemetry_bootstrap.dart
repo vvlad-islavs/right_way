@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -92,13 +93,20 @@ class TelemetryBootstrap {
     }
 
     final afKey = AppEnv.appsflyerDevKey;
-    if (afKey.isNotEmpty) {
+    if (afKey.isEmpty) {
+      talker.warning('APPSFLYER_DEV_KEY пуст — AppsFlyer не запущен.');
+    } else if (Platform.isAndroid) {
+      // Пока в AppsFlyer на Anroid вовзращает 400 код ошибки
+      talker.info(
+        'AppsFlyer на Android возвращает 400 код ошибки, пропускаем.'
+      );
+    } else {
       try {
         final options = AppsFlyerOptions(
           afDevKey: afKey,
-          appId: Platform.isIOS ? AppEnv.appsflyerAppleAppId : '',
+          appId: AppEnv.appsflyerAppleAppId,
           showDebug: kDebugMode,
-          timeToWaitForATTUserAuthorization: Platform.isIOS ? 60 : null,
+          timeToWaitForATTUserAuthorization:Platform.isIOS ? 60 : null,
         );
         appsflyer = AppsflyerSdk(options);
 
@@ -115,12 +123,11 @@ class TelemetryBootstrap {
           registerOnDeepLinkingCallback: true,
         );
         talker.info('AppsFlyer SDK started.');
+        await _runIosAttFlow(talker);
       } catch (e, st) {
         talker.error('AppsFlyer init failed.', e, st);
         appsflyer = null;
       }
-    } else {
-      talker.warning('APPSFLYER_DEV_KEY пуст — AppsFlyer не запущен.');
     }
 
     final telemetry = AppTelemetry(
@@ -150,3 +157,57 @@ class TelemetryBootstrap {
     });
   }
 }
+
+/// iOS 14+: ATT-диалог в окне [AppsFlyerOptions.timeToWaitForATTUserAuthorization].
+/// Нативный AppsFlyer SDK сам читает [ATTrackingManager] после ответа пользователя.
+Future<void> _runIosAttFlow(Talker talker) async {
+  try {
+    var status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    talker.info('ATT: текущий статус до запроса — ${_attStatusLabel(status)}');
+
+    switch (status) {
+      case TrackingStatus.notSupported:
+        talker.info('ATT: не поддерживается (версия ОС / платформа).');
+        return;
+      case TrackingStatus.restricted:
+        talker.warning('ATT: restricted — диалог недоступен, трекинг ограничен на устройстве.');
+        return;
+      case TrackingStatus.denied:
+        talker.info('ATT: denied — пользователь ранее отказал.');
+        return;
+      case TrackingStatus.authorized:
+        talker.info('ATT: authorized — доступ к трекингу уже выдан.');
+        return;
+      case TrackingStatus.notDetermined:
+        status = await AppTrackingTransparency.requestTrackingAuthorization();
+        talker.info('ATT: ответ пользователя — ${_attStatusLabel(status)}');
+        _logAttOutcome(talker, status);
+        return;
+    }
+  } catch (e, st) {
+    talker.error('ATT: ошибка', e, st);
+  }
+}
+
+void _logAttOutcome(Talker talker, TrackingStatus status) {
+  switch (status) {
+    case TrackingStatus.authorized:
+      talker.info('ATT: AppsFlyer получит статус из системы (IDFA при разрешении).');
+    case TrackingStatus.denied:
+      talker.info('ATT: отказ — AppsFlyer работает без IDFA (SKAN и др.).');
+    case TrackingStatus.restricted:
+      talker.warning('ATT: restricted после запроса.');
+    case TrackingStatus.notDetermined:
+      talker.warning('ATT: всё ещё notDetermined после диалога.');
+    case TrackingStatus.notSupported:
+      talker.debug('ATT: notSupported после запроса.');
+  }
+}
+
+String _attStatusLabel(TrackingStatus status) => switch (status) {
+  TrackingStatus.notDetermined => 'notDetermined',
+  TrackingStatus.restricted => 'restricted',
+  TrackingStatus.denied => 'denied',
+  TrackingStatus.authorized => 'authorized',
+  TrackingStatus.notSupported => 'notSupported',
+};

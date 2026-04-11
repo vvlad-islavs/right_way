@@ -1,4 +1,6 @@
 PODS:
+  - app_tracking_transparency (0.0.1):
+    - Flutter
   - appmetrica_plugin (4.0.0):
     - AppMetricaAdSupport (~> 6.1)
     - AppMetricaCore (~> 6.1)
@@ -254,6 +256,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - appmetrica_plugin (from `.symlinks/plugins/appmetrica_plugin/ios`)
   - appsflyer_sdk (from `.symlinks/plugins/appsflyer_sdk/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -310,6 +313,8 @@ SPEC REPOS:
     - PromisesSwift
 
 EXTERNAL SOURCES:
+  app_tracking_transparency:
+    :path: ".symlinks/plugins/app_tracking_transparency/ios"
   appmetrica_plugin:
     :path: ".symlinks/plugins/appmetrica_plugin/ios"
   appsflyer_sdk:
@@ -332,6 +337,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
+  app_tracking_transparency: 3d84f147f67ca82d3c15355c36b1fa6b66ca7c92
   appmetrica_plugin: 9e361bd8fbe26c65bddf660594c4c472606ad29e
   AppMetricaAdSupport: 9b40f5c455c31a2b673923d51a4d067d78d5d722
   AppMetricaCore: 0653dd08a23e09c985073aa74c65bdf146b90f44

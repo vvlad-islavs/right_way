@@ -48,11 +48,12 @@ class ConsoleLogService implements LogService {
     );
   }
 
-  /// Имя логгера: префикс `right_way` и опционально суффикс из [tag].
+  /// Имя логгера: префикс bundle id и опционально суффикс из [tag].
   String _name(String? tag) {
+    const prefix = 'com.nicfuno.sonicforgeflow';
     final t = tag?.trim();
-    if (t == null || t.isEmpty) return 'right_way';
-    return 'right_way.$t';
+    if (t == null || t.isEmpty) return prefix;
+    return '$prefix.$t';
   }
 }
 

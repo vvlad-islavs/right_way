@@ -1,4 +1,4 @@
-package com.june.right_way
+package com.nicfuno.sonicforgeflow
 
 import io.flutter.embedding.android.FlutterActivity
 
