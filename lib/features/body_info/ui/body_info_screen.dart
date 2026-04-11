@@ -35,7 +35,8 @@ class _BodyInfoView extends StatelessWidget {
                 }
 
                 return ListView(
-                  padding: const EdgeInsets.all(16),
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: scrollableContentPadding(context),
                   children: [
                     _FieldTile(
                       label: l10n.bodyHeightCm,

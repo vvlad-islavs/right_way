@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:right_way/core/core.dart';
 
 @RoutePage()
 class RecipeScreen extends StatelessWidget {
@@ -14,11 +15,14 @@ class RecipeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.bodyLarge;
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(recipe),
+      appBar: AppBar(
+        title: Text(title, maxLines: 2, overflow: TextOverflow.ellipsis),
+      ),
+      body: SingleChildScrollView(
+        padding: scrollableContentPadding(context),
+        child: SelectableText(recipe, style: style),
       ),
     );
   }

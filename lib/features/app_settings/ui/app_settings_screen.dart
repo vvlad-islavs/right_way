@@ -34,21 +34,27 @@ class _AppSettingsScaffoldState extends State<_AppSettingsScaffold> {
           final l10n = context.l10n;
           return switch (state.status) {
             AppSettingsLoadStatus.loading => const Center(child: CircularProgressIndicator()),
-            AppSettingsLoadStatus.failure => Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(l10n.settingsLoadError),
-                    const Gap(16),
-                    FilledButton(
-                      onPressed: () => context.read<AppSettingsCubit>().load(),
-                      child: Text(l10n.settingsRetry),
+            AppSettingsLoadStatus.failure => CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Padding(
+                    padding: scrollableContentPadding(context, base: 24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(l10n.settingsLoadError, textAlign: TextAlign.center),
+                        const Gap(16),
+                        FilledButton(
+                          onPressed: () => context.read<AppSettingsCubit>().load(),
+                          child: Text(l10n.settingsRetry),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
             AppSettingsLoadStatus.ready => const _AppSettingsLoadedBody(),
           };
@@ -96,8 +102,10 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
         }
         final msg = state.feedback;
         if (msg != null && context.mounted) {
-          final text = switch (msg) { AppSettingsFeedback.saved => context.l10n.settingsSaved };
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+          final text = switch (msg) {
+            AppSettingsFeedback.saved => context.l10n.settingsSaved,
+          };
+          showAppSnackBar(context, text);
           context.read<AppSettingsCubit>().clearFeedback();
         }
       },
@@ -110,7 +118,8 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
           final switching = state.providerSwitching;
           final localeCtrl = di<LocaleController>();
           return ListView(
-            padding: const EdgeInsets.all(16),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: scrollableContentPadding(context),
             children: [
               Card(
                 child: Padding(
@@ -119,12 +128,7 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(18),
-                        child: Image.asset(
-                          'assets/logo.png',
-                          width: 72,
-                          height: 72,
-                          fit: BoxFit.cover,
-                        ),
+                        child: Image.asset('assets/logo.png', width: 72, height: 72, fit: BoxFit.cover),
                       ),
                       const Gap(16),
                       Expanded(
@@ -135,9 +139,9 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                             const Gap(4),
                             Text(
                               l10n.appTagline,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                  ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                             ),
                           ],
                         ),
@@ -155,6 +159,7 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(l10n.settingsLanguage, style: Theme.of(context).textTheme.titleMedium),
@@ -193,27 +198,30 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                             ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                           ),
                           const Gap(14),
-                          SegmentedButton<ThemeMode>(
-                            expandedInsets: const EdgeInsets.symmetric(horizontal: 2),
-                            segments: [
-                              ButtonSegment(
-                                value: ThemeMode.system,
-                                label: Text(l10n.settingsThemeSystem),
-                                icon: const Icon(Icons.brightness_auto_rounded, size: 18),
-                              ),
-                              ButtonSegment(
-                                value: ThemeMode.light,
-                                label: Text(l10n.settingsThemeLight),
-                                icon: const Icon(Icons.light_mode_outlined, size: 18),
-                              ),
-                              ButtonSegment(
-                                value: ThemeMode.dark,
-                                label: Text(l10n.settingsThemeDark),
-                                icon: const Icon(Icons.dark_mode_outlined, size: 18),
-                              ),
-                            ],
-                            selected: {themeCtrl.mode},
-                            onSelectionChanged: (s) => themeCtrl.setMode(s.first),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: SegmentedButton<ThemeMode>(
+                              expandedInsets: const EdgeInsets.symmetric(horizontal: 2),
+                              segments: [
+                                ButtonSegment(
+                                  value: ThemeMode.system,
+                                  label: Text(l10n.settingsThemeSystem, maxLines: 1),
+                                  icon: const Icon(Icons.brightness_auto_rounded, size: 18),
+                                ),
+                                ButtonSegment(
+                                  value: ThemeMode.light,
+                                  label: Text(l10n.settingsThemeLight, maxLines: 1),
+                                  icon: const Icon(Icons.light_mode_outlined, size: 18),
+                                ),
+                                ButtonSegment(
+                                  value: ThemeMode.dark,
+                                  label: Text(l10n.settingsThemeDark, maxLines: 1),
+                                  icon: const Icon(Icons.dark_mode_outlined, size: 18),
+                                ),
+                              ],
+                              selected: {themeCtrl.mode},
+                              onSelectionChanged: (s) => themeCtrl.setMode(s.first),
+                            ),
                           ),
                         ],
                       ),
@@ -265,7 +273,10 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                       child: DropdownButtonFormField<String>(
                         key: ValueKey('model:${snap.provider.id}:$selectedModel'),
                         initialValue: selectedModel,
-                        decoration: InputDecoration(labelText: l10n.settingsModelLabel, border: const OutlineInputBorder()),
+                        decoration: InputDecoration(
+                          labelText: l10n.settingsModelLabel,
+                          border: const OutlineInputBorder(),
+                        ),
                         items: models.map((m) => DropdownMenuItem(value: m, child: Text(m))).toList(growable: false),
                         onChanged: switching
                             ? null

@@ -28,7 +28,7 @@ mixin ErrorSnackBarMixin<T extends StatefulWidget> on State<T> {
       final route = ModalRoute.of(context);
       if (route != null && !route.isCurrent) return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(buildErrorSnackBar(error));
+    showAppSnackBar(context, error.uiMessage);
   }
 
   @override

@@ -83,7 +83,8 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
       body: BlocBuilder<NutritionSettingsBloc, NutritionSettingsState>(
         builder: (context, state) {
           return ListView(
-            padding: const EdgeInsets.all(16),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: scrollableContentPadding(context),
             children: [
               Card(
                 child: Padding(

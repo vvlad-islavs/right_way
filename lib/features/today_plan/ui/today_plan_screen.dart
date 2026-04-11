@@ -66,31 +66,30 @@ class _PlansBottomSheetState extends State<_PlansBottomSheet> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-        children: [
-          Text(l10n.todayPlanMyPlans, style: Theme.of(context).textTheme.titleLarge),
-          const Gap(8),
-          Text(
-            l10n.todayPlanPickerHint,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+    final p = MediaQuery.paddingOf(context);
+    return ListView(
+      padding: EdgeInsets.fromLTRB(16 + p.left, 8 + p.top, 16 + p.right, 16 + p.bottom),
+      children: [
+        Text(l10n.todayPlanMyPlans, style: Theme.of(context).textTheme.titleLarge),
+        const Gap(8),
+        Text(
+          l10n.todayPlanPickerHint,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+        ),
+        const Gap(14),
+        for (var i = 0; i < _plans.length; i++) ...[
+          if (i > 0) const Gap(10),
+          _PlanSheetTile(
+            plan: _plans[i],
+            scheme: scheme,
+            onSelect: () {
+              Navigator.of(context).pop();
+              widget.cubit.selectActivePlan(_plans[i].id);
+            },
+            onDelete: () => _confirmDelete(_plans[i]),
           ),
-          const Gap(14),
-          for (var i = 0; i < _plans.length; i++) ...[
-            if (i > 0) const Gap(10),
-            _PlanSheetTile(
-              plan: _plans[i],
-              scheme: scheme,
-              onSelect: () {
-                Navigator.of(context).pop();
-                widget.cubit.selectActivePlan(_plans[i].id);
-              },
-              onDelete: () => _confirmDelete(_plans[i]),
-            ),
-          ],
         ],
-      ),
+      ],
     );
   }
 }
@@ -179,15 +178,14 @@ class _TodayPlanView extends StatelessWidget {
     final plans = await cubit.listPlans();
     if (!context.mounted) return;
     if (plans.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.todayPlanNoSavedPlansSnack)),
-      );
+      showAppSnackBar(context, context.l10n.todayPlanNoSavedPlansSnack);
       return;
     }
     await showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
+      useSafeArea: true,
       builder: (ctx) {
         return _PlansBottomSheet(cubit: cubit, initialPlans: plans);
       },
@@ -200,8 +198,10 @@ class _TodayPlanView extends StatelessWidget {
       context: screenContext,
       showDragHandle: true,
       isScrollControlled: true,
+      useSafeArea: true,
       builder: (sheetContext) {
         final l10n = sheetContext.l10n;
+        final sheetPad = MediaQuery.paddingOf(sheetContext);
         return DraggableScrollableSheet(
           expand: false,
           initialChildSize: 0.55,
@@ -211,7 +211,12 @@ class _TodayPlanView extends StatelessWidget {
             final sh = Theme.of(sheetContext).colorScheme;
             return ListView(
               controller: scrollController,
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              padding: EdgeInsets.fromLTRB(
+                16 + sheetPad.left,
+                8,
+                16 + sheetPad.right,
+                24 + sheetPad.bottom,
+              ),
               children: [
                 DecoratedBox(
                   decoration: BoxDecoration(
@@ -247,12 +252,18 @@ class _TodayPlanView extends StatelessWidget {
                 for (final meal in day.meals) ...[
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: Text('${mealTypeLabel(l10n, meal.type)} — ${meal.title}'),
+                    title: Text(
+                      '${mealTypeLabel(l10n, meal.type)} — ${meal.title}',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     subtitle: Text(
                       l10n.todayPlanMealSubtitle(
                         meal.nutrition.kcal.round(),
                         meal.nutrition.proteinG.round(),
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
@@ -288,7 +299,7 @@ class _TodayPlanView extends StatelessWidget {
               onRefresh: () => context.read<TodayPlanCubit>().load(),
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(24),
+                padding: scrollableContentPadding(context, base: 24),
                 children: [
                   Text(
                     l10n.todayPlanLoadFailed,
@@ -303,7 +314,7 @@ class _TodayPlanView extends StatelessWidget {
               onRefresh: () => context.read<TodayPlanCubit>().load(),
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(24),
+                padding: scrollableContentPadding(context, base: 24),
                 children: [
                   Text(
                     l10n.todayPlanEmpty,
@@ -315,11 +326,12 @@ class _TodayPlanView extends StatelessWidget {
             break;
           case TodayPlanLoadStatus.ready:
             final soft = Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4);
+            final mq = MediaQuery.of(context);
             body = Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+                  padding: EdgeInsets.fromLTRB(16 + mq.padding.left, 10, 16 + mq.padding.right, 0),
                   child: Material(
                     color: soft,
                     borderRadius: BorderRadius.circular(22),
@@ -376,6 +388,8 @@ class _TodayPlanView extends StatelessWidget {
                 if (title != null && title.isNotEmpty)
                   Text(
                     title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontWeight: FontWeight.w400,
@@ -418,7 +432,7 @@ class _TodaySegment extends StatelessWidget {
         onRefresh: () => context.read<TodayPlanCubit>().load(),
         child: ListView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(24),
+          padding: scrollableContentPadding(context, base: 24),
           children: [
             Text(
               l10n.todayPlanNoTodayMatch,
@@ -449,12 +463,18 @@ class _TodaySegment extends StatelessWidget {
       ...d.meals.map(
         (meal) => Card(
           child: ListTile(
-            title: Text('${mealTypeLabel(l10n, meal.type)} — ${meal.title}'),
+            title: Text(
+              '${mealTypeLabel(l10n, meal.type)} — ${meal.title}',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
             subtitle: Text(
               l10n.todayPlanMealSubtitle(
                 meal.nutrition.kcal.round(),
                 meal.nutrition.proteinG.round(),
               ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => onOpenRecipe(meal),
@@ -467,7 +487,7 @@ class _TodaySegment extends StatelessWidget {
       onRefresh: () => context.read<TodayPlanCubit>().load(),
       child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16),
+        padding: scrollableContentPadding(context),
         itemCount: children.length,
         separatorBuilder: (context, index) => const Gap(12),
         itemBuilder: (context, index) => children[index],
@@ -491,7 +511,7 @@ class _FullPlanSegment extends StatelessWidget {
       onRefresh: () => context.read<TodayPlanCubit>().load(),
       child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16),
+        padding: scrollableContentPadding(context),
         itemCount: days.length,
         separatorBuilder: (context, index) => const Gap(8),
         itemBuilder: (context, index) {
@@ -502,8 +522,16 @@ class _FullPlanSegment extends StatelessWidget {
           final kcalPart = kcal > 0 ? l10n.todayPlanKcalApprox(kcal) : '';
           return Card(
             child: ListTile(
-              title: Text(l10n.todayPlanDayRowTitle(d.dayIndex, weekdayShort(l10n, d.weekDay))),
-              subtitle: Text(l10n.todayPlanDayRowSubtitle(mealsCount, kcalPart)),
+              title: Text(
+                l10n.todayPlanDayRowTitle(d.dayIndex, weekdayShort(l10n, d.weekDay)),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle: Text(
+                l10n.todayPlanDayRowSubtitle(mealsCount, kcalPart),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
               trailing: const Icon(Icons.expand_more),
               onTap: () => onDayTap(d),
             ),

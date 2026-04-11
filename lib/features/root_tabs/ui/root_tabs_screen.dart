@@ -21,7 +21,7 @@ class _RootTabsScreenState extends State<RootTabsScreen> {
     super.initState();
     _sub = di<ErrorReporter>().stream.listen((e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.uiMessage)));
+      showAppSnackBar(context, e.uiMessage);
     });
   }
 
