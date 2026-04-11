@@ -47,5 +47,7 @@
 	<true/>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Это помогает показывать релевантную рекламу и оценивать эффективность компаний.</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~3347511713</string>
 </dict>
 </plist>

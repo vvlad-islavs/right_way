@@ -71,7 +71,7 @@ class TelemetryBootstrap {
       talker.error('Firebase init failed — Analytics/Crashlytics отключены.', e, st);
     }
 
-    final metricaKey = AppEnv.appmetricaApiKey;
+    final metricaKey = Env.appmetricaApiKey;
     if (metricaKey.isNotEmpty) {
       try {
         await AppMetrica.activate(
@@ -92,7 +92,7 @@ class TelemetryBootstrap {
       talker.warning('APPMETRICA_API_KEY пуст — AppMetrica не запущена.');
     }
 
-    final afKey = AppEnv.appsflyerDevKey;
+    final afKey = Env.appsflyerDevKey;
     if (afKey.isEmpty) {
       talker.warning('APPSFLYER_DEV_KEY пуст — AppsFlyer не запущен.');
     } else if (Platform.isAndroid) {
@@ -104,7 +104,7 @@ class TelemetryBootstrap {
       try {
         final options = AppsFlyerOptions(
           afDevKey: afKey,
-          appId: AppEnv.appsflyerAppleAppId,
+          appId: Env.appsflyerAppleAppId,
           showDebug: kDebugMode,
           timeToWaitForATTUserAuthorization:Platform.isIOS ? 60 : null,
         );

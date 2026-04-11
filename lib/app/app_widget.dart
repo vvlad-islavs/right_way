@@ -34,9 +34,7 @@ class _AppState extends State<App> {
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,
           themeMode: _theme.mode,
-          routerConfig: _router.config(
-            navigatorObservers: () => [if (di<AppTelemetry>() != null) TelemetryNavigatorObserver(di<AppTelemetry>())],
-          ),
+          routerConfig: _router.config(navigatorObservers: () => [TelemetryNavigatorObserver(di<AppTelemetry>())]),
         );
       },
     );
