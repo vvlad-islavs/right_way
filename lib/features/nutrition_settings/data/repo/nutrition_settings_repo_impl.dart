@@ -31,7 +31,8 @@ class NutritionSettingsRepoImpl implements NutritionSettingsRepo {
         (source.supportedModels.isNotEmpty ? source.supportedModels.first : '');
 
     final result = await source.calculate(settings, apiKey: apiKey ?? '', model: model);
-    await _todayPlanLocal.persistFromAiResponse(result.rawJson, settings.planName);
+    final newPlanId = await _todayPlanLocal.persistFromAiResponse(result.rawJson, settings.planName);
+    await _todayPlanLocal.setActivePlanId(newPlanId);
     return result;
   }
 }

@@ -45,7 +45,7 @@ class NutritionSettingsState {
       goal: goal ?? this.goal,
       planName: planName ?? this.planName,
       isLoading: isLoading ?? this.isLoading,
-      result: result ?? this.result,
+      result: result
     );
   }
 }

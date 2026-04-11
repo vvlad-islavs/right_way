@@ -32,6 +32,7 @@ class _AppState extends State<App> {
       listenable: _theme,
       builder: (context, _) {
         return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           title: 'Right Way',
           theme: AppThemes.lightTheme,
           darkTheme: AppThemes.darkTheme,

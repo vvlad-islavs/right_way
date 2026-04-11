@@ -96,7 +96,13 @@ class _ControlledFieldTileState extends State<_ControlledFieldTile> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.value);
-    _focusNode = FocusNode();
+    _focusNode = FocusNode()..addListener(_onFocusChanged);
+  }
+
+  void _onFocusChanged() {
+    if (!_focusNode.hasFocus) {
+      widget.onSave(_controller.text);
+    }
   }
 
   @override
@@ -109,6 +115,7 @@ class _ControlledFieldTileState extends State<_ControlledFieldTile> {
 
   @override
   void dispose() {
+    _focusNode.removeListener(_onFocusChanged);
     _focusNode.dispose();
     _controller.dispose();
     super.dispose();

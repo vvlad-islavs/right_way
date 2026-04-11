@@ -32,7 +32,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
 
   /// См. [TodayPlanLocalSource.persistFromAiResponse].
   @override
-  Future<void> persistFromAiResponse(Map<String, dynamic> rawJson, String planName) async {
+  Future<int> persistFromAiResponse(Map<String, dynamic> rawJson, String planName) async {
     final meta = _asStringKeyedMap(rawJson['meta']);
     final goal = meta?['goal']?.toString() ?? '';
     final metaDays = (meta?['days'] as num?)?.toInt() ?? 0;
@@ -60,6 +60,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
     final anchorWeekday = DateTime.now().weekday;
     final name = planName.trim().isEmpty ? 'План' : planName.trim();
 
+    late int newPlanId;
     _store.runInTransaction(TxMode.write, () {
       final plan = PlanDto(
         name: name,
@@ -70,6 +71,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
         createdAtMs: DateTime.now().millisecondsSinceEpoch,
       );
       _planBox.put(plan);
+      newPlanId = plan.id;
 
       final dayDtos = <DayDto>[];
       var i = 0;
@@ -119,6 +121,7 @@ class ObjectBoxTodayPlanLocalSource implements TodayPlanLocalSource {
       plan.dayIdsCsv = dayDtos.map((d) => d.id).join(',');
       _planBox.put(plan);
     });
+    return newPlanId;
   }
 
   /// См. [TodayPlanLocalSource.loadActivePlanDayForWeekday].

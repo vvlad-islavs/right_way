@@ -17,11 +17,11 @@ class AppErrors {
   AppErrors._();
 
   /// Общий текст, если не задано свое сообщение для Snackbar.
-  static const String genericUi = 'Что-то пошло не так. Попробуй ещё раз.';
+  static const String genericUi = 'Что-то пошло не так. Попробуйте ещё раз.';
 
   /// Нет сохраненного API-ключа для провайдера [providerTitle].
   static AppException missingApiKey(String providerTitle) => AppException(
-    uiMessage: 'Укажи API ключ для $providerTitle в настройках.',
+    uiMessage: 'Укажите API-ключ для $providerTitle в настройках.',
     logMessage: 'Missing API key: providerTitle=$providerTitle',
   );
 
@@ -37,7 +37,7 @@ class AppErrors {
 
   /// Пустое имя плана при сохранении.
   static AppException emptyPlanName() => AppException(
-    uiMessage: 'Введи название плана, так он сохранится в списке.',
+    uiMessage: 'Введите название плана, так оно сохранится в списке.',
     logMessage: 'Validation: empty planName',
   );
 
@@ -67,7 +67,7 @@ class AppErrors {
 
   /// Ответ [providerTitle] не распарсился как JSON; [error] в лог.
   static AppException invalidModelJson(String providerTitle, {Object? error}) => AppException(
-    uiMessage: 'Модель вернула некорректный JSON. Попробуй ещё раз или смени модель.',
+    uiMessage: 'Модель вернула некорректный JSON. Попробуйте ещё раз или смените модель.',
     logMessage: 'Invalid JSON from provider=$providerTitle error=$error',
   );
 
@@ -76,11 +76,11 @@ class AppErrors {
       'Нет лимитов Gemini для этого ключа (free tier = 0). Нужен другой ключ или биллинг.';
 
   /// Текст UI: превышены лимиты запросов к Gemini.
-  static const String geminiRateLimitedUi = 'Gemini временно недоступен из-за лимитов. Попробуй позже.';
+  static const String geminiRateLimitedUi = 'Gemini временно недоступен из-за лимитов. Попробуйте позже.';
 
   /// Сетевой или серверный сбой Gemini; подробности в [logDetails].
   static AppException geminiRequestFailed({required String logDetails}) => AppException(
-    uiMessage: 'Не удалось обратиться к Gemini. Проверь сеть и ключ.',
+    uiMessage: 'Не удалось обратиться к Gemini. Проверьте сеть и ключ.',
     logMessage: 'Gemini request failed: $logDetails',
   );
 }

@@ -40,7 +40,7 @@ class BodyInfoBloc extends Bloc<BodyInfoEvent, BodyInfoState> {
       final err = AppErrors.invalidBodyFieldValue();
       _errors.reportMessage(uiMessage: err.uiMessage, logMessage: err.logMessage);
       return;
-    }
+    } 
 
     try {
       emit(state.copyWith(isLoading: true));

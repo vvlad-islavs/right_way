@@ -169,10 +169,7 @@ class TodayPlanScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => di<TodayPlanCubit>(),
-      child: const _TodayPlanView(),
-    );
+    return const _TodayPlanView();
   }
 }
 
@@ -185,7 +182,7 @@ class _TodayPlanView extends StatelessWidget {
     if (!context.mounted) return;
     if (plans.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Сохранённых планов пока нет. Создай план на вкладке «Питание».')),
+        const SnackBar(content: Text('Сохранённых планов пока нет. Создайте план на вкладке «Питание».')),
       );
       return;
     }

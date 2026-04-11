@@ -6,6 +6,7 @@ import 'nutrition_plan_prompt_text.dart';
 import 'nutrition_settings_remote_source.dart';
 
 /// [NutritionSettingsRemoteSource] для Google Gemini: структурированный JSON по схеме плана.
+/// * Не используется, тк Gemini не дает триал периода, оставляен как пример возможной реализации
 class GeminiRemoteSource implements NutritionSettingsRemoteSource {
   /// Первый аргумент: HTTP-клиент Dio; [log] для диагностических сообщений.
   GeminiRemoteSource(this._dio, {required LogService log}) : _log = log;

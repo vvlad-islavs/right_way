@@ -107,6 +107,41 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Image.asset(
+                          'assets/logo.png',
+                          width: 72,
+                          height: 72,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const Gap(16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Right Way', style: Theme.of(context).textTheme.titleLarge),
+                            const Gap(4),
+                            Text(
+                              'Правильное питание и здоровый образ жизни',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Gap(12),
               ListenableBuilder(
                 listenable: di<AppThemeController>(),
                 builder: (context, _) {

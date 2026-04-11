@@ -8,6 +8,7 @@ import 'nutrition_plan_prompt_text.dart';
 import 'nutrition_settings_remote_source.dart';
 
 /// [NutritionSettingsRemoteSource] для OpenAI: chat completions с форматом json_object.
+/// /// * Не используется, тк OpenAI не дает триал периода, оставляен как пример возможной реализации
 class OpenAiRemoteSource implements NutritionSettingsRemoteSource {
   /// Первый аргумент: HTTP-клиент Dio; [log] пишет строку перед запросом.
   OpenAiRemoteSource(this._dio, {required LogService log}) : _log = log;

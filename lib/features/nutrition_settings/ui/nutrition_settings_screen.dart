@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:right_way/core/core.dart';
 import 'package:right_way/features/nutrition_settings/nutrition_settings.dart';
+import 'package:right_way/features/today_plan/ui/bloc/bloc.dart';
 
 @RoutePage()
 class NutritionSettingsScreen extends StatelessWidget {
@@ -11,7 +12,19 @@ class NutritionSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => di<NutritionSettingsBloc>(), child: const _NutritionSettingsView());
+    return BlocProvider(
+      create: (_) => di<NutritionSettingsBloc>(),
+      child: BlocListener<NutritionSettingsBloc, NutritionSettingsState>(
+        listenWhen: (prev, curr) => prev.isLoading && !curr.isLoading,
+        listener: (context, state) {
+          if (state.result != null) {
+            AutoTabsRouter.of(context).setActiveIndex(2);
+            context.read<TodayPlanCubit>().load();
+          }
+        },
+        child: const _NutritionSettingsView(),
+      ),
+    );
   }
 }
 

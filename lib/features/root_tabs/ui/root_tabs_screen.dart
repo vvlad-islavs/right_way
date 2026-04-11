@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:right_way/core/core.dart';
+import 'package:right_way/features/today_plan/ui/bloc/bloc.dart';
 
 @RoutePage()
 class RootTabsScreen extends StatefulWidget {
@@ -31,41 +33,44 @@ class _RootTabsScreenState extends State<RootTabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      routes: const [
-        BodyInfoRoute(),
-        NutritionSettingsRoute(),
-        TodayPlanRoute(),
-        AppSettingsRoute(),
-      ],
-      builder: (context, child) {
-        final tabs = AutoTabsRouter.of(context);
-        return Scaffold(
-          body: child,
-          bottomNavigationBar: NavigationBar(
-            selectedIndex: tabs.activeIndex,
-            onDestinationSelected: tabs.setActiveIndex,
-            destinations: const [
-              NavigationDestination(
-                icon: Icon(Icons.monitor_weight_outlined),
-                label: 'Тело',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.tune_outlined),
-                label: 'Питание',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.restaurant_menu_outlined),
-                label: 'План',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.settings_outlined),
-                label: 'Настройки',
-              ),
-            ],
-          ),
-        );
-      },
+    return BlocProvider<TodayPlanCubit>.value(
+      value: di<TodayPlanCubit>(),
+      child: AutoTabsRouter(
+        routes: const [
+          BodyInfoRoute(),
+          NutritionSettingsRoute(),
+          TodayPlanRoute(),
+          AppSettingsRoute(),
+        ],
+        builder: (context, child) {
+          final tabs = AutoTabsRouter.of(context);
+          return Scaffold(
+            body: child,
+            bottomNavigationBar: NavigationBar(
+              selectedIndex: tabs.activeIndex,
+              onDestinationSelected: tabs.setActiveIndex,
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.monitor_weight_outlined),
+                  label: 'Тело',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.tune_outlined),
+                  label: 'Питание',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.restaurant_menu_outlined),
+                  label: 'План',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.settings_outlined),
+                  label: 'Настройки',
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

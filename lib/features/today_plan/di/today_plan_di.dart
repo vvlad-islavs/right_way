@@ -13,7 +13,7 @@ class TodayPlanDi {
       ..registerLazySingleton<TodayPlanUseCase>(
         () => TodayPlanUseCase(di<TodayPlanLocalSource>()),
       )
-      ..registerFactory<TodayPlanCubit>(
+      ..registerLazySingleton<TodayPlanCubit>(
         () => TodayPlanCubit(di<TodayPlanUseCase>(), di<ErrorReporter>()),
       );
   }
