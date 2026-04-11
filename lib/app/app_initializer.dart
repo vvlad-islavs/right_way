@@ -14,7 +14,7 @@ class AppInitializer {
     Bloc.observer = TalkerBlocObserver(talker: talker);
     objectBox = await ObjectBoxStore.create();
     await CoreDi.init(objectBox: objectBox);
-    await TelemetryBootstrap.init(talker, enableTalker: true, enable: true);
+    await TelemetryBootstrap.init(talker, enableTalker: true, enable: false);
     TelemetryBootstrap.wireErrorReporter();
     await AdMobBootstrap.init(talker, enable: true);
     router = AppRouter();

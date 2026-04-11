@@ -1,0 +1,209 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Right Way",
+  "appTagline": "Правильное питание и здоровый образ жизни",
+  "navTabBody": "Тело",
+  "navTabNutrition": "Питание",
+  "navTabPlan": "План",
+  "navTabSettings": "Настройки",
+  "bodyScreenTitle": "Тело",
+  "bodyHeightCm": "Рост (см)",
+  "bodyWeightKg": "Вес (кг)",
+  "bodyAge": "Возраст",
+  "bodyOpenTodayPlan": "Открыть план на сегодня",
+  "nutritionPlanTitle": "Настройки плана",
+  "nutritionDaysInPlan": "Дней в плане: {days}",
+  "@nutritionDaysInPlan": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "nutritionGoalLabel": "Цель",
+  "goalWeightLoss": "Похудение",
+  "goalMuscleGain": "Масса",
+  "goalHealth": "Здоровье",
+  "nutritionPlanName": "Название плана",
+  "nutritionPlanNameHint": "Как назвать этот план в списке",
+  "nutritionExcludedProducts": "Исключить продукты (через запятую)",
+  "nutritionCalculate": "Рассчитать",
+  "settingsTitle": "Настройки",
+  "settingsLoadError": "Не удалось загрузить настройки.",
+  "settingsRetry": "Повторить",
+  "settingsLanguage": "Язык",
+  "settingsLanguageSubtitle": "Язык интерфейса",
+  "settingsLanguageRu": "Русский",
+  "settingsLanguageEn": "English",
+  "settingsAppearance": "Оформление",
+  "settingsThemeHint": "Тема интерфейса",
+  "settingsThemeSystem": "Система",
+  "settingsThemeLight": "Свет",
+  "settingsThemeDark": "Тьма",
+  "settingsModelLabel": "Модель",
+  "settingsSave": "Сохранить",
+  "settingsApiKey": "API ключ",
+  "settingsShowKey": "Показать",
+  "settingsHideKey": "Скрыть",
+  "settingsSaved": "Сохранено",
+  "todayPlanAppBarTitle": "План",
+  "todayPlanSegmentToday": "Сегодня",
+  "todayPlanSegmentFull": "Весь план",
+  "todayPlanPlansButton": "Планы",
+  "todayPlanLoadFailed": "Не удалось загрузить план. Потяни вниз, чтобы обновить.",
+  "todayPlanEmpty": "Пока нет сохранённых планов или в плане нет дней. Создай план на вкладке «Питание» и при необходимости выбери активный план.",
+  "todayPlanNoTodayMatch": "В активном плане нет дня, совпадающего с сегодняшним по схеме недели. Открой «Весь план» или выбери другой активный план.",
+  "todayPlanDayTotals": "За день: {kcal} ккал · Б {protein} г · Ж {fat} г · У {carbs} г",
+  "@todayPlanDayTotals": {
+    "placeholders": {
+      "kcal": {"type": "int"},
+      "protein": {"type": "int"},
+      "fat": {"type": "int"},
+      "carbs": {"type": "int"}
+    }
+  },
+  "todayPlanMealSubtitle": "{kcal} ккал · Б {protein} г",
+  "@todayPlanMealSubtitle": {
+    "placeholders": {
+      "kcal": {"type": "int"},
+      "protein": {"type": "int"}
+    }
+  },
+  "todayPlanSheetDayTitle": "День {day} · {weekday}",
+  "@todayPlanSheetDayTitle": {
+    "placeholders": {
+      "day": {"type": "int"},
+      "weekday": {"type": "String"}
+    }
+  },
+  "todayPlanSheetDayMacros": "{kcal} ккал · Б {protein} г · Ж {fat} г · У {carbs} г",
+  "@todayPlanSheetDayMacros": {
+    "placeholders": {
+      "kcal": {"type": "int"},
+      "protein": {"type": "int"},
+      "fat": {"type": "int"},
+      "carbs": {"type": "int"}
+    }
+  },
+  "todayPlanDayRowTitle": "День {day} · {weekday}",
+  "@todayPlanDayRowTitle": {
+    "placeholders": {
+      "day": {"type": "int"},
+      "weekday": {"type": "String"}
+    }
+  },
+  "todayPlanDayRowSubtitle": "{count} приёмов пищи{kcalPart}",
+  "@todayPlanDayRowSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "kcalPart": {"type": "String"}
+    }
+  },
+  "todayPlanKcalApprox": " · ~{kcal} ккал",
+  "@todayPlanKcalApprox": {
+    "placeholders": {
+      "kcal": {"type": "int"}
+    }
+  },
+  "todayPlanNoSavedPlansSnack": "Сохранённых планов пока нет. Создайте план на вкладке «Питание».",
+  "todayPlanMyPlans": "Мои планы",
+  "todayPlanPickerHint": "Нажми на план, чтобы сделать его активным. Корзина — удалить.",
+  "todayPlanDeleteTooltip": "Удалить",
+  "todayPlanDeleteDialogTitle": "Удалить план?",
+  "todayPlanDeleteDialogBody": "«{name}» и все его дни будут удалены безвозвратно.",
+  "@todayPlanDeleteDialogBody": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "todayPlanCancel": "Отмена",
+  "todayPlanDelete": "Удалить",
+  "todayPlanActiveSuffix": " · активен",
+  "mealBreakfast": "Завтрак",
+  "mealLunch": "Обед",
+  "mealDinner": "Ужин",
+  "mealSnack": "Перекус",
+  "mealGeneric": "Приём пищи",
+  "weekdayMon": "Пн",
+  "weekdayTue": "Вт",
+  "weekdayWed": "Ср",
+  "weekdayThu": "Чт",
+  "weekdayFri": "Пт",
+  "weekdaySat": "Сб",
+  "weekdaySun": "Вс",
+  "recipeIngredients": "Ингредиенты:",
+  "recipeSteps": "Шаги:",
+  "recipeIngredientLine": "· {name} — {amount} {unit}",
+  "@recipeIngredientLine": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "amount": {"type": "String"},
+      "unit": {"type": "String"}
+    }
+  },
+  "recipeStepLine": "{n}. {text}",
+  "@recipeStepLine": {
+    "placeholders": {
+      "n": {"type": "int"},
+      "text": {"type": "String"}
+    }
+  },
+  "recipeNoDetails": "Нет деталей рецепта.",
+  "errorGeneric": "Что-то пошло не так. Попробуйте ещё раз.",
+  "errorMissingApiKey": "Укажите API-ключ для {provider} в настройках.",
+  "@errorMissingApiKey": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorNoRemoteSource": "Не найден источник для {provider}.",
+  "@errorNoRemoteSource": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorPlanNotFound": "План не найден.",
+  "errorEmptyPlanName": "Введите название плана, так оно сохранится в списке.",
+  "errorInvalidBody": "Некорректное значение.",
+  "errorFailedSaveLocal": "Не удалось обновить локальное значение",
+  "errorInvalidAiPlan": "Ответ ИИ не похож на план: неверный формат.",
+  "errorGroqMissingPlan": "Модель вернула ответ без списка дней.",
+  "errorInvalidModelJson": "Модель вернула некорректный JSON. Попробуйте ещё раз или смените модель.",
+  "errorGeminiFreeTier": "Нет лимитов Gemini для этого ключа (free tier = 0). Нужен другой ключ или биллинг.",
+  "errorGeminiRateLimit": "Gemini временно недоступен из-за лимитов. Попробуйте позже.",
+  "errorGeminiRequestFailed": "Не удалось обратиться к Gemini. Проверьте сеть и ключ.",
+  "errorAiBadRequestDecommissioned": "{provider}: модель снята с поддержки. Выбери другую в настройках.",
+  "@errorAiBadRequestDecommissioned": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiBadRequestGeneric": "{provider}: запрос отклонён. Проверь модель и параметры в настройках.",
+  "@errorAiBadRequestGeneric": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiAuth": "{provider}: доступ запрещён. Проверь ключ и регион.",
+  "@errorAiAuth": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiRateLimit": "{provider}: слишком много запросов. Подожди или смени модель.",
+  "@errorAiRateLimit": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiServer": "{provider}: сервер временно недоступен.",
+  "@errorAiServer": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiNetwork": "{provider}: запрос не выполнен. Проверь сеть, ключ и лимиты.",
+  "@errorAiNetwork": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  }
+}

@@ -21,8 +21,9 @@ class _BodyInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: const Text('Тело')),
+      appBar: AppBar(title: Text(l10n.bodyScreenTitle)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -37,21 +38,21 @@ class _BodyInfoView extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   children: [
                     _FieldTile(
-                      label: 'Рост (см)',
+                      label: l10n.bodyHeightCm,
                       value: state.heightText,
                       onSave: (raw) =>
                           context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.heightCm, raw: raw)),
                     ),
                     const Gap(12),
                     _FieldTile(
-                      label: 'Вес (кг)',
+                      label: l10n.bodyWeightKg,
                       value: state.weightText,
                       onSave: (raw) =>
                           context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.weightKg, raw: raw)),
                     ),
                     const Gap(12),
                     _FieldTile(
-                      label: 'Возраст',
+                      label: l10n.bodyAge,
                       value: state.ageText,
                       onSave: (raw) =>
                           context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.age, raw: raw)),
@@ -59,7 +60,7 @@ class _BodyInfoView extends StatelessWidget {
                     const Gap(24),
                     FilledButton.tonal(
                       onPressed: () => context.router.navigate(const TodayPlanRoute()),
-                      child: const Text('Открыть план на сегодня'),
+                      child: Text(l10n.bodyOpenTodayPlan),
                     ),
                   ],
                 );

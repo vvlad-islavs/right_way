@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:right_way/core/core.dart';
+import 'package:right_way/l10n/generated/app_localizations.dart';
 import 'package:right_way/features/app_settings/ui/bloc/app_settings_cubit.dart';
 import 'package:right_way/features/app_settings/ui/bloc/app_settings_state.dart';
 
@@ -27,9 +28,10 @@ class _AppSettingsScaffoldState extends State<_AppSettingsScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Настройки')),
+      appBar: AppBar(title: Text(context.l10n.settingsTitle)),
       body: BlocBuilder<AppSettingsCubit, AppSettingsState>(
         builder: (context, state) {
+          final l10n = context.l10n;
           return switch (state.status) {
             AppSettingsLoadStatus.loading => const Center(child: CircularProgressIndicator()),
             AppSettingsLoadStatus.failure => Center(
@@ -38,11 +40,11 @@ class _AppSettingsScaffoldState extends State<_AppSettingsScaffold> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Не удалось загрузить настройки.'),
+                    Text(l10n.settingsLoadError),
                     const Gap(16),
                     FilledButton(
                       onPressed: () => context.read<AppSettingsCubit>().load(),
-                      child: const Text('Повторить'),
+                      child: Text(l10n.settingsRetry),
                     ),
                   ],
                 ),
@@ -94,7 +96,8 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
         }
         final msg = state.feedback;
         if (msg != null && context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+          final text = switch (msg) { AppSettingsFeedback.saved => context.l10n.settingsSaved };
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
           context.read<AppSettingsCubit>().clearFeedback();
         }
       },
@@ -102,8 +105,10 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
         buildWhen: (p, c) =>
             p.snapshot != c.snapshot || p.providerSwitching != c.providerSwitching || p.status != c.status,
         builder: (context, state) {
+          final l10n = context.l10n;
           final snap = state.snapshot!;
           final switching = state.providerSwitching;
+          final localeCtrl = di<LocaleController>();
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -126,10 +131,10 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Right Way', style: Theme.of(context).textTheme.titleLarge),
+                            Text(l10n.appTitle, style: Theme.of(context).textTheme.titleLarge),
                             const Gap(4),
                             Text(
-                              'Правильное питание и здоровый образ жизни',
+                              l10n.appTagline,
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                                   ),
@@ -143,7 +148,7 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
               ),
               const Gap(12),
               ListenableBuilder(
-                listenable: di<AppThemeController>(),
+                listenable: Listenable.merge([di<AppThemeController>(), localeCtrl]),
                 builder: (context, _) {
                   final themeCtrl = di<AppThemeController>();
                   return Card(
@@ -152,10 +157,37 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Оформление', style: Theme.of(context).textTheme.titleMedium),
+                          Text(l10n.settingsLanguage, style: Theme.of(context).textTheme.titleMedium),
                           const Gap(6),
                           Text(
-                            'Тема интерфейса',
+                            l10n.settingsLanguageSubtitle,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          ),
+                          const Gap(14),
+                          SegmentedButton<String>(
+                            expandedInsets: const EdgeInsets.symmetric(horizontal: 2),
+                            segments: [
+                              ButtonSegment(
+                                value: 'ru',
+                                label: Text(l10n.settingsLanguageRu),
+                                icon: const Icon(Icons.language, size: 18),
+                              ),
+                              ButtonSegment(
+                                value: 'en',
+                                label: Text(l10n.settingsLanguageEn),
+                                icon: const Icon(Icons.language_outlined, size: 18),
+                              ),
+                            ],
+                            selected: {localeCtrl.languageCode},
+                            onSelectionChanged: (s) => localeCtrl.setLanguageCode(s.first),
+                          ),
+                          const Gap(20),
+                          Text(l10n.settingsAppearance, style: Theme.of(context).textTheme.titleMedium),
+                          const Gap(6),
+                          Text(
+                            l10n.settingsThemeHint,
                             style: Theme.of(
                               context,
                             ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
@@ -163,21 +195,21 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                           const Gap(14),
                           SegmentedButton<ThemeMode>(
                             expandedInsets: const EdgeInsets.symmetric(horizontal: 2),
-                            segments: const [
+                            segments: [
                               ButtonSegment(
                                 value: ThemeMode.system,
-                                label: Text('Система'),
-                                icon: Icon(Icons.brightness_auto_rounded, size: 18),
+                                label: Text(l10n.settingsThemeSystem),
+                                icon: const Icon(Icons.brightness_auto_rounded, size: 18),
                               ),
                               ButtonSegment(
                                 value: ThemeMode.light,
-                                label: Text('Свет'),
-                                icon: Icon(Icons.light_mode_outlined, size: 18),
+                                label: Text(l10n.settingsThemeLight),
+                                icon: const Icon(Icons.light_mode_outlined, size: 18),
                               ),
                               ButtonSegment(
                                 value: ThemeMode.dark,
-                                label: Text('Тьма'),
-                                icon: Icon(Icons.dark_mode_outlined, size: 18),
+                                label: Text(l10n.settingsThemeDark),
+                                icon: const Icon(Icons.dark_mode_outlined, size: 18),
                               ),
                             ],
                             selected: {themeCtrl.mode},
@@ -233,7 +265,7 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
                       child: DropdownButtonFormField<String>(
                         key: ValueKey('model:${snap.provider.id}:$selectedModel'),
                         initialValue: selectedModel,
-                        decoration: const InputDecoration(labelText: 'Модель', border: OutlineInputBorder()),
+                        decoration: InputDecoration(labelText: l10n.settingsModelLabel, border: const OutlineInputBorder()),
                         items: models.map((m) => DropdownMenuItem(value: m, child: Text(m))).toList(growable: false),
                         onChanged: switching
                             ? null
@@ -250,13 +282,13 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(12),
-                  child: _ObscuringApiKeyField(controller: _apiKeyCtrl),
+                  child: _ObscuringApiKeyField(controller: _apiKeyCtrl, l10n: l10n),
                 ),
               ),
               const Gap(16),
               FilledButton(
                 onPressed: switching ? null : () => context.read<AppSettingsCubit>().save(_apiKeyCtrl.text),
-                child: const Text('Сохранить'),
+                child: Text(l10n.settingsSave),
               ),
             ],
           );
@@ -267,9 +299,10 @@ class _AppSettingsLoadedBodyState extends State<_AppSettingsLoadedBody> {
 }
 
 class _ObscuringApiKeyField extends StatefulWidget {
-  const _ObscuringApiKeyField({required this.controller});
+  const _ObscuringApiKeyField({required this.controller, required this.l10n});
 
   final TextEditingController controller;
+  final AppLocalizations l10n;
 
   @override
   State<_ObscuringApiKeyField> createState() => _ObscuringApiKeyFieldState();
@@ -299,12 +332,12 @@ class _ObscuringApiKeyFieldState extends State<_ObscuringApiKeyField> {
           controller: widget.controller,
           obscureText: obscure,
           decoration: InputDecoration(
-            labelText: 'API ключ',
+            labelText: widget.l10n.settingsApiKey,
             border: const OutlineInputBorder(),
             suffixIcon: IconButton(
               onPressed: () => _obscure.value = !_obscure.value,
               icon: Icon(obscure ? Icons.visibility : Icons.visibility_off),
-              tooltip: obscure ? 'Показать' : 'Скрыть',
+              tooltip: obscure ? widget.l10n.settingsShowKey : widget.l10n.settingsHideKey,
             ),
           ),
         );

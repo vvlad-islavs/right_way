@@ -3,6 +3,7 @@ export 'ai/ai.dart';
 export 'config/config.dart';
 export 'di/di.dart';
 export 'errors/errors.dart';
+export 'l10n/l10n.dart';
 export 'logging/logging.dart';
 export 'network/network.dart';
 export 'router/router.dart';

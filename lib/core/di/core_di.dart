@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:right_way/core/ai/ai.dart';
 import 'package:right_way/core/errors/errors.dart';
+import 'package:right_way/core/l10n/locale_controller.dart';
 import 'package:right_way/core/logging/logging.dart';
 import 'package:right_way/core/network/network.dart';
 import 'package:right_way/core/storage/storage.dart';
@@ -23,6 +24,7 @@ class CoreDi {
     final prefs = await SharedPreferences.getInstance();
     di.registerSingleton<SharedPreferences>(prefs);
     di.registerSingleton<ObjectBoxStore>(objectBox);
+    di.registerSingleton<LocaleController>(LocaleController(prefs));
     di.registerLazySingleton<AppThemeController>(() => AppThemeController(di<SharedPreferences>()));
     di.registerLazySingleton<FlutterSecureStorage>(() => const FlutterSecureStorage());
     di.registerLazySingleton<AiSettingsStore>(() => AiSettingsStore(di<FlutterSecureStorage>()));

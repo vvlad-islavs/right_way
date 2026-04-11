@@ -2,6 +2,8 @@ import 'package:right_way/features/app_settings/domain/domain.dart';
 
 enum AppSettingsLoadStatus { loading, ready, failure }
 
+enum AppSettingsFeedback { saved }
+
 class AppSettingsState {
   const AppSettingsState({
     required this.status,
@@ -17,13 +19,13 @@ class AppSettingsState {
   final bool providerSwitching;
 
   /// Одноразовое сообщение для SnackBar (после показа сбрасывается через [copyWith]).
-  final String? feedback;
+  final AppSettingsFeedback? feedback;
 
   AppSettingsState copyWith({
     AppSettingsLoadStatus? status,
     AiUiSettingsSnapshot? snapshot,
     bool? providerSwitching,
-    String? feedback,
+    AppSettingsFeedback? feedback,
     bool clearFeedback = false,
   }) {
     return AppSettingsState(

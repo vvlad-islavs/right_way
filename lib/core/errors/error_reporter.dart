@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:right_way/core/logging/logging.dart';
-
-import 'app_errors.dart';
+import 'package:right_way/core/l10n/l10n_scope.dart';
 
 /// Нормализованная ошибка для UI (кратко) и для логов (подробно).
 class AppError {
@@ -64,7 +63,7 @@ class StreamErrorReporter implements ErrorReporter {
     String? uiMessage,
     String? logMessage,
   }) {
-    final ui = (uiMessage == null || uiMessage.trim().isEmpty) ? AppErrors.genericUi : uiMessage.trim();
+    final ui = (uiMessage == null || uiMessage.trim().isEmpty) ? appL10n().errorGeneric : uiMessage.trim();
     final logMsg = (logMessage == null || logMessage.trim().isEmpty)
         ? 'Unhandled error: ${error.toString()}'
         : logMessage.trim();
@@ -87,7 +86,7 @@ class StreamErrorReporter implements ErrorReporter {
   /// Без исключения: лог и событие только по строкам [uiMessage] и [logMessage].
   @override
   void reportMessage({required String uiMessage, String? logMessage}) {
-    final ui = uiMessage.trim().isEmpty ? AppErrors.genericUi : uiMessage.trim();
+    final ui = uiMessage.trim().isEmpty ? appL10n().errorGeneric : uiMessage.trim();
     final logMsg =
         (logMessage == null || logMessage.trim().isEmpty) ? 'reportMessage: $ui' : logMessage.trim();
     _log.error(logMsg, tag: 'error_reporter');

@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:right_way/core/core.dart';
 import 'package:right_way/features/nutrition_settings/nutrition_settings.dart';
 import 'package:right_way/features/today_plan/ui/bloc/bloc.dart';
+import 'package:right_way/l10n/generated/app_localizations.dart';
 
 @RoutePage()
 class NutritionSettingsScreen extends StatelessWidget {
@@ -61,11 +62,11 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
     super.dispose();
   }
 
-  String _goalLabel(NutritionGoal goal) {
+  String _goalLabel(AppLocalizations l10n, NutritionGoal goal) {
     return switch (goal) {
-      NutritionGoal.weightLoss => 'Похудение',
-      NutritionGoal.muscleGain => 'Масса',
-      NutritionGoal.health => 'Здоровье',
+      NutritionGoal.weightLoss => l10n.goalWeightLoss,
+      NutritionGoal.muscleGain => l10n.goalMuscleGain,
+      NutritionGoal.health => l10n.goalHealth,
     };
   }
 
@@ -74,15 +75,11 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
     context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setExcluded(value.trim()));
   }
 
-  void _handleNotesChanged(String value) {
-    if (_notesFocusNode.hasFocus) _notesFocusNode.unfocus();
-    context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setNotes(value.trim()));
-  }
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: const Text('Настройки плана')),
+      appBar: AppBar(title: Text(l10n.nutritionPlanTitle)),
       body: BlocBuilder<NutritionSettingsBloc, NutritionSettingsState>(
         builder: (context, state) {
           return ListView(
@@ -94,7 +91,7 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Дней в плане: ${state.days}', style: Theme.of(context).textTheme.titleMedium),
+                      Text(l10n.nutritionDaysInPlan(state.days), style: Theme.of(context).textTheme.titleMedium),
                       Slider(
                         value: state.days.toDouble(),
                         min: 1,
@@ -116,9 +113,9 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
                   padding: const EdgeInsets.all(12),
                   child: DropdownButtonFormField<NutritionGoal>(
                     initialValue: state.goal,
-                    decoration: const InputDecoration(labelText: 'Цель', border: OutlineInputBorder()),
+                    decoration: InputDecoration(labelText: l10n.nutritionGoalLabel, border: const OutlineInputBorder()),
                     items: NutritionGoal.values
-                        .map((g) => DropdownMenuItem(value: g, child: Text(_goalLabel(g))))
+                        .map((g) => DropdownMenuItem(value: g, child: Text(_goalLabel(l10n, g))))
                         .toList(growable: false),
                     onChanged: state.isLoading
                         ? null
@@ -136,10 +133,10 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
                   child: TextField(
                     controller: _planNameController,
                     enabled: !state.isLoading,
-                    decoration: const InputDecoration(
-                      labelText: 'Название плана',
-                      hintText: 'Как назвать этот план в списке',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.nutritionPlanName,
+                      hintText: l10n.nutritionPlanNameHint,
+                      border: const OutlineInputBorder(),
                     ),
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: (v) => context.read<NutritionSettingsBloc>().add(NutritionSettingsEvent.setPlanName(v)),
@@ -153,9 +150,9 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
                   child: TextField(
                     controller: _excludedController,
                     focusNode: _excludedFocusNode,
-                    decoration: const InputDecoration(
-                      labelText: 'Исключить продукты (через запятую)',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.nutritionExcludedProducts,
+                      border: const OutlineInputBorder(),
                     ),
                     onSubmitted: (v) => _handleExcludedChanged(v),
                     onEditingComplete: () => _handleExcludedChanged(_excludedController.text),
@@ -169,14 +166,8 @@ class _NutritionSettingsViewState extends State<_NutritionSettingsView> {
                 onPressed: state.isLoading
                     ? null
                     : () => context.read<NutritionSettingsBloc>().add(const NutritionSettingsEvent.calculate()),
-                child: state.isLoading ? const CircularProgressIndicator() : const Text('Рассчитать'),
+                child: state.isLoading ? const CircularProgressIndicator() : Text(l10n.nutritionCalculate),
               ),
-              // if (state.result != null) ...[
-              //   const Gap(16),
-              //   Card(
-              //     child: Padding(padding: const EdgeInsets.all(12), child: Text('Ответ API: ${state.result!.rawJson}')),
-              //   ),
-              // ],
             ],
           );
         },

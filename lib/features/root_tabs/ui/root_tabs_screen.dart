@@ -33,6 +33,7 @@ class _RootTabsScreenState extends State<RootTabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocProvider<TodayPlanCubit>.value(
       value: di<TodayPlanCubit>(),
       child: AutoTabsRouter(
@@ -49,22 +50,22 @@ class _RootTabsScreenState extends State<RootTabsScreen> {
             bottomNavigationBar: NavigationBar(
               selectedIndex: tabs.activeIndex,
               onDestinationSelected: tabs.setActiveIndex,
-              destinations: const [
+              destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.monitor_weight_outlined),
-                  label: 'Тело',
+                  icon: const Icon(Icons.monitor_weight_outlined),
+                  label: l10n.navTabBody,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.tune_outlined),
-                  label: 'Питание',
+                  icon: const Icon(Icons.tune_outlined),
+                  label: l10n.navTabNutrition,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.restaurant_menu_outlined),
-                  label: 'План',
+                  icon: const Icon(Icons.restaurant_menu_outlined),
+                  label: l10n.navTabPlan,
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.settings_outlined),
-                  label: 'Настройки',
+                  icon: const Icon(Icons.settings_outlined),
+                  label: l10n.navTabSettings,
                 ),
               ],
             ),
@@ -74,4 +75,3 @@ class _RootTabsScreenState extends State<RootTabsScreen> {
     );
   }
 }
-

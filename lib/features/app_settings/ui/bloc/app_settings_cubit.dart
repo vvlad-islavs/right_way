@@ -68,7 +68,13 @@ class AppSettingsCubit extends Cubit<AppSettingsState> {
     if (snap == null) return;
     try {
       final refreshed = await _useCase.saveAiSettings(provider: snap.provider, apiKey: apiKeyText, model: snap.model);
-      emit(AppSettingsState(status: AppSettingsLoadStatus.ready, snapshot: refreshed, feedback: 'Сохранено'));
+      emit(
+        AppSettingsState(
+          status: AppSettingsLoadStatus.ready,
+          snapshot: refreshed,
+          feedback: AppSettingsFeedback.saved,
+        ),
+      );
       unawaited(_telemetry.logAiSettingsSaved(snap.provider.id));
     } catch (_) {
       final err = AppErrors.failedSaveLocalData();

@@ -1,3 +1,5 @@
+import 'package:right_way/core/l10n/l10n_scope.dart';
+
 /// Ошибка домена: [uiMessage] для Snackbar, [logMessage] для подробного лога.
 class AppException implements Exception {
   /// Задает пару сообщений для UI и логов.
@@ -17,70 +19,69 @@ class AppErrors {
   AppErrors._();
 
   /// Общий текст, если не задано свое сообщение для Snackbar.
-  static const String genericUi = 'Что-то пошло не так. Попробуйте ещё раз.';
+  static String get genericUi => appL10n().errorGeneric;
 
   /// Нет сохраненного API-ключа для провайдера [providerTitle].
   static AppException missingApiKey(String providerTitle) => AppException(
-    uiMessage: 'Укажите API-ключ для $providerTitle в настройках.',
+    uiMessage: appL10n().errorMissingApiKey(providerTitle),
     logMessage: 'Missing API key: providerTitle=$providerTitle',
   );
 
   /// В DI не зарегистрирован источник для провайдера [providerTitle] ([providerId]).
   static AppException noRemoteSource(String providerTitle, String providerId) => AppException(
-    uiMessage: 'Не найден источник для $providerTitle.',
+    uiMessage: appL10n().errorNoRemoteSource(providerTitle),
     logMessage: 'No remote source registered: providerId=$providerId',
   );
 
   /// План с идентификатором [planId] отсутствует в локальной базе.
   static AppException planNotFound(int planId) =>
-      AppException(uiMessage: 'План не найден.', logMessage: 'Plan not found: id=$planId');
+      AppException(uiMessage: appL10n().errorPlanNotFound, logMessage: 'Plan not found: id=$planId');
 
   /// Пустое имя плана при сохранении.
   static AppException emptyPlanName() => AppException(
-    uiMessage: 'Введите название плана, так оно сохранится в списке.',
+    uiMessage: appL10n().errorEmptyPlanName,
     logMessage: 'Validation: empty planName',
   );
 
   /// Некорректное числовое значение поля тела.
   static AppException invalidBodyFieldValue() =>
-      AppException(uiMessage: 'Некорректное значение.', logMessage: 'Validation: invalid numeric body field');
+      AppException(uiMessage: appL10n().errorInvalidBody, logMessage: 'Validation: invalid numeric body field');
 
   /// Ошибка записи в локальное хранилище.
   static AppException failedSaveLocalData() =>
-      AppException(uiMessage: 'Не удалось обновить локальное значение', logMessage: 'LocalDB: failed to update');
+      AppException(uiMessage: appL10n().errorFailedSaveLocal, logMessage: 'LocalDB: failed to update');
 
   /// JSON от ИИ не соответствует ожидаемой структуре плана; [reason] и [payload] в лог.
   static AppException invalidAiPlanStructure({required String reason, Object? payload}) {
     final payloadStr = payload == null ? '' : payload.toString();
     final preview = payloadStr.length > 500 ? '${payloadStr.substring(0, 500)}...' : payloadStr;
     return AppException(
-      uiMessage: 'Ответ ИИ не похож на план: неверный формат.',
+      uiMessage: appL10n().errorInvalidAiPlan,
       logMessage: 'Invalid AI plan structure: $reason. payload=$preview',
     );
   }
 
   /// При склейке ответов Groq в JSON нет списка `plan`.
   static AppException groqChunkMissingPlan({required Object json}) => AppException(
-    uiMessage: 'Модель вернула ответ без списка дней.',
+    uiMessage: appL10n().errorGroqMissingPlan,
     logMessage: 'Groq chunk merge: missing or invalid "plan". json=$json',
   );
 
   /// Ответ [providerTitle] не распарсился как JSON; [error] в лог.
   static AppException invalidModelJson(String providerTitle, {Object? error}) => AppException(
-    uiMessage: 'Модель вернула некорректный JSON. Попробуйте ещё раз или смените модель.',
+    uiMessage: appL10n().errorInvalidModelJson,
     logMessage: 'Invalid JSON from provider=$providerTitle error=$error',
   );
 
   /// Текст UI: лимиты Gemini для ключа равны нулю.
-  static const String geminiFreeTierZeroUi =
-      'Нет лимитов Gemini для этого ключа (free tier = 0). Нужен другой ключ или биллинг.';
+  static String get geminiFreeTierZeroUi => appL10n().errorGeminiFreeTier;
 
   /// Текст UI: превышены лимиты запросов к Gemini.
-  static const String geminiRateLimitedUi = 'Gemini временно недоступен из-за лимитов. Попробуйте позже.';
+  static String get geminiRateLimitedUi => appL10n().errorGeminiRateLimit;
 
   /// Сетевой или серверный сбой Gemini; подробности в [logDetails].
   static AppException geminiRequestFailed({required String logDetails}) => AppException(
-    uiMessage: 'Не удалось обратиться к Gemini. Проверьте сеть и ключ.',
+    uiMessage: appL10n().errorGeminiRequestFailed,
     logMessage: 'Gemini request failed: $logDetails',
   );
 }

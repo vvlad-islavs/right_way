@@ -20,6 +20,12 @@ class Env {
 
   static String get appmetricaApiKey => dotenv.get('APPMETRICA_API_KEY', fallback: '');
 
+  /// `current_key` из `android/app/google-services.json` (не коммитить в репозиторий).
+  static String get firebaseAndroidApiKey => dotenv.get('FIREBASE_ANDROID_API_KEY', fallback: '');
+
+  /// `API_KEY` из `ios/Runner/GoogleService-Info.plist`.
+  static String get firebaseIosApiKey => dotenv.get('FIREBASE_IOS_API_KEY', fallback: '');
+
   static String get admobAppId => dotenv.get('ADMOB_APP_ID', fallback: '');
 
   static String get admobBannerAdUnitId => dotenv.get('ADMOB_BANNER_AD_UNIT_ID', fallback: '');

@@ -1,0 +1,209 @@
+{
+  "@@locale": "en",
+  "appTitle": "Right Way",
+  "appTagline": "Healthy eating and lifestyle",
+  "navTabBody": "Body",
+  "navTabNutrition": "Nutrition",
+  "navTabPlan": "Plan",
+  "navTabSettings": "Settings",
+  "bodyScreenTitle": "Body",
+  "bodyHeightCm": "Height (cm)",
+  "bodyWeightKg": "Weight (kg)",
+  "bodyAge": "Age",
+  "bodyOpenTodayPlan": "Open today’s plan",
+  "nutritionPlanTitle": "Plan settings",
+  "nutritionDaysInPlan": "Days in plan: {days}",
+  "@nutritionDaysInPlan": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "nutritionGoalLabel": "Goal",
+  "goalWeightLoss": "Weight loss",
+  "goalMuscleGain": "Muscle gain",
+  "goalHealth": "Health",
+  "nutritionPlanName": "Plan name",
+  "nutritionPlanNameHint": "How this plan appears in the list",
+  "nutritionExcludedProducts": "Exclude foods (comma-separated)",
+  "nutritionCalculate": "Calculate",
+  "settingsTitle": "Settings",
+  "settingsLoadError": "Could not load settings.",
+  "settingsRetry": "Retry",
+  "settingsLanguage": "Language",
+  "settingsLanguageSubtitle": "Interface language",
+  "settingsLanguageRu": "Russian",
+  "settingsLanguageEn": "English",
+  "settingsAppearance": "Appearance",
+  "settingsThemeHint": "Interface theme",
+  "settingsThemeSystem": "System",
+  "settingsThemeLight": "Light",
+  "settingsThemeDark": "Dark",
+  "settingsModelLabel": "Model",
+  "settingsSave": "Save",
+  "settingsApiKey": "API key",
+  "settingsShowKey": "Show",
+  "settingsHideKey": "Hide",
+  "settingsSaved": "Saved",
+  "todayPlanAppBarTitle": "Plan",
+  "todayPlanSegmentToday": "Today",
+  "todayPlanSegmentFull": "Full plan",
+  "todayPlanPlansButton": "Plans",
+  "todayPlanLoadFailed": "Could not load the plan. Pull down to refresh.",
+  "todayPlanEmpty": "No saved plans yet or the plan has no days. Create a plan on the Nutrition tab and pick an active plan if needed.",
+  "todayPlanNoTodayMatch": "The active plan has no day matching today in the week layout. Open Full plan or choose another active plan.",
+  "todayPlanDayTotals": "Day total: {kcal} kcal · P {protein} g · F {fat} g · C {carbs} g",
+  "@todayPlanDayTotals": {
+    "placeholders": {
+      "kcal": {"type": "int"},
+      "protein": {"type": "int"},
+      "fat": {"type": "int"},
+      "carbs": {"type": "int"}
+    }
+  },
+  "todayPlanMealSubtitle": "{kcal} kcal · P {protein} g",
+  "@todayPlanMealSubtitle": {
+    "placeholders": {
+      "kcal": {"type": "int"},
+      "protein": {"type": "int"}
+    }
+  },
+  "todayPlanSheetDayTitle": "Day {day} · {weekday}",
+  "@todayPlanSheetDayTitle": {
+    "placeholders": {
+      "day": {"type": "int"},
+      "weekday": {"type": "String"}
+    }
+  },
+  "todayPlanSheetDayMacros": "{kcal} kcal · P {protein} g · F {fat} g · C {carbs} g",
+  "@todayPlanSheetDayMacros": {
+    "placeholders": {
+      "kcal": {"type": "int"},
+      "protein": {"type": "int"},
+      "fat": {"type": "int"},
+      "carbs": {"type": "int"}
+    }
+  },
+  "todayPlanDayRowTitle": "Day {day} · {weekday}",
+  "@todayPlanDayRowTitle": {
+    "placeholders": {
+      "day": {"type": "int"},
+      "weekday": {"type": "String"}
+    }
+  },
+  "todayPlanDayRowSubtitle": "{count} meals{kcalPart}",
+  "@todayPlanDayRowSubtitle": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "kcalPart": {"type": "String"}
+    }
+  },
+  "todayPlanKcalApprox": " · ~{kcal} kcal",
+  "@todayPlanKcalApprox": {
+    "placeholders": {
+      "kcal": {"type": "int"}
+    }
+  },
+  "todayPlanNoSavedPlansSnack": "No saved plans yet. Create a plan on the Nutrition tab.",
+  "todayPlanMyPlans": "My plans",
+  "todayPlanPickerHint": "Tap a plan to make it active. Trash icon — delete.",
+  "todayPlanDeleteTooltip": "Delete",
+  "todayPlanDeleteDialogTitle": "Delete plan?",
+  "todayPlanDeleteDialogBody": "\"{name}\" and all its days will be permanently deleted.",
+  "@todayPlanDeleteDialogBody": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "todayPlanCancel": "Cancel",
+  "todayPlanDelete": "Delete",
+  "todayPlanActiveSuffix": " · active",
+  "mealBreakfast": "Breakfast",
+  "mealLunch": "Lunch",
+  "mealDinner": "Dinner",
+  "mealSnack": "Snack",
+  "mealGeneric": "Meal",
+  "weekdayMon": "Mon",
+  "weekdayTue": "Tue",
+  "weekdayWed": "Wed",
+  "weekdayThu": "Thu",
+  "weekdayFri": "Fri",
+  "weekdaySat": "Sat",
+  "weekdaySun": "Sun",
+  "recipeIngredients": "Ingredients:",
+  "recipeSteps": "Steps:",
+  "recipeIngredientLine": "· {name} — {amount} {unit}",
+  "@recipeIngredientLine": {
+    "placeholders": {
+      "name": {"type": "String"},
+      "amount": {"type": "String"},
+      "unit": {"type": "String"}
+    }
+  },
+  "recipeStepLine": "{n}. {text}",
+  "@recipeStepLine": {
+    "placeholders": {
+      "n": {"type": "int"},
+      "text": {"type": "String"}
+    }
+  },
+  "recipeNoDetails": "No recipe details.",
+  "errorGeneric": "Something went wrong. Please try again.",
+  "errorMissingApiKey": "Add an API key for {provider} in Settings.",
+  "@errorMissingApiKey": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorNoRemoteSource": "No data source found for {provider}.",
+  "@errorNoRemoteSource": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorPlanNotFound": "Plan not found.",
+  "errorEmptyPlanName": "Enter a plan name so it appears in the list.",
+  "errorInvalidBody": "Invalid value.",
+  "errorFailedSaveLocal": "Could not update local data",
+  "errorInvalidAiPlan": "The AI response does not look like a plan: invalid format.",
+  "errorGroqMissingPlan": "The model returned a response without a day list.",
+  "errorInvalidModelJson": "The model returned invalid JSON. Try again or switch the model.",
+  "errorGeminiFreeTier": "No Gemini quota for this key (free tier = 0). Use another key or billing.",
+  "errorGeminiRateLimit": "Gemini is temporarily unavailable due to limits. Try later.",
+  "errorGeminiRequestFailed": "Could not reach Gemini. Check network and key.",
+  "errorAiBadRequestDecommissioned": "{provider}: model is no longer supported. Pick another in Settings.",
+  "@errorAiBadRequestDecommissioned": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiBadRequestGeneric": "{provider}: request rejected. Check model and settings.",
+  "@errorAiBadRequestGeneric": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiAuth": "{provider}: access denied. Check key and region.",
+  "@errorAiAuth": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiRateLimit": "{provider}: too many requests. Wait or switch model.",
+  "@errorAiRateLimit": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiServer": "{provider}: server temporarily unavailable.",
+  "@errorAiServer": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  },
+  "errorAiNetwork": "{provider}: request failed. Check network, key, and limits.",
+  "@errorAiNetwork": {
+    "placeholders": {
+      "provider": {"type": "String"}
+    }
+  }
+}

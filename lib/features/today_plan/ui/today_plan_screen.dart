@@ -7,13 +7,6 @@ import 'package:right_way/features/today_plan/domain/domain.dart';
 import 'package:right_way/features/today_plan/ui/bloc/bloc.dart';
 import 'package:right_way/features/today_plan/ui/today_plan_formatting.dart';
 
-String _formatPlanDate(int ms) {
-  final d = DateTime.fromMillisecondsSinceEpoch(ms);
-  final m = d.month.toString().padLeft(2, '0');
-  final day = d.day.toString().padLeft(2, '0');
-  return '$day.$m.${d.year}';
-}
-
 class _PlansBottomSheet extends StatefulWidget {
   const _PlansBottomSheet({
     required this.cubit,
@@ -48,17 +41,20 @@ class _PlansBottomSheetState extends State<_PlansBottomSheet> {
   Future<void> _confirmDelete(PlanSummary p) async {
     final ok = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Удалить план?'),
-        content: Text('«${p.name}» и все его дни будут удалены безвозвратно.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Отмена')),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Удалить'),
-          ),
-        ],
-      ),
+      builder: (ctx) {
+        final l10n = ctx.l10n;
+        return AlertDialog(
+          title: Text(l10n.todayPlanDeleteDialogTitle),
+          content: Text(l10n.todayPlanDeleteDialogBody(p.name)),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l10n.todayPlanCancel)),
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(l10n.todayPlanDelete),
+            ),
+          ],
+        );
+      },
     );
     if (ok != true || !mounted) return;
     await widget.cubit.deletePlan(p.id);
@@ -68,15 +64,16 @@ class _PlansBottomSheetState extends State<_PlansBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         children: [
-          Text('Мои планы', style: Theme.of(context).textTheme.titleLarge),
+          Text(l10n.todayPlanMyPlans, style: Theme.of(context).textTheme.titleLarge),
           const Gap(8),
           Text(
-            'Нажми на план, чтобы сделать его активным. Корзина — удалить.',
+            l10n.todayPlanPickerHint,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
           ),
           const Gap(14),
@@ -113,6 +110,7 @@ class _PlanSheetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Card(
       margin: EdgeInsets.zero,
       child: Row(
@@ -139,7 +137,7 @@ class _PlanSheetTile extends StatelessWidget {
                           Text(plan.name, style: Theme.of(context).textTheme.titleSmall),
                           const Gap(2),
                           Text(
-                            '${_formatPlanDate(plan.createdAtMs)}${plan.isActive ? ' · активен' : ''}',
+                            '${formatPlanDate(context, plan.createdAtMs)}${plan.isActive ? l10n.todayPlanActiveSuffix : ''}',
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                   color: scheme.onSurfaceVariant,
                                 ),
@@ -153,7 +151,7 @@ class _PlanSheetTile extends StatelessWidget {
             ),
           ),
           IconButton(
-            tooltip: 'Удалить',
+            tooltip: l10n.todayPlanDeleteTooltip,
             icon: Icon(Icons.delete_outline_rounded, color: scheme.error),
             onPressed: onDelete,
           ),
@@ -182,7 +180,7 @@ class _TodayPlanView extends StatelessWidget {
     if (!context.mounted) return;
     if (plans.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Сохранённых планов пока нет. Создайте план на вкладке «Питание».')),
+        SnackBar(content: Text(context.l10n.todayPlanNoSavedPlansSnack)),
       );
       return;
     }
@@ -203,6 +201,7 @@ class _TodayPlanView extends StatelessWidget {
       showDragHandle: true,
       isScrollControlled: true,
       builder: (sheetContext) {
+        final l10n = sheetContext.l10n;
         return DraggableScrollableSheet(
           expand: false,
           initialChildSize: 0.55,
@@ -225,14 +224,18 @@ class _TodayPlanView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'День ${day.dayIndex} · ${weekdayShortRu(day.weekDay)}',
+                          l10n.todayPlanSheetDayTitle(day.dayIndex, weekdayShort(l10n, day.weekDay)),
                           style: Theme.of(sheetContext).textTheme.titleLarge,
                         ),
                         if (day.dayNutrition != null) ...[
                           const Gap(8),
                           Text(
-                            '${day.dayNutrition!.kcal.round()} ккал · Б ${day.dayNutrition!.proteinG.round()} г · '
-                            'Ж ${day.dayNutrition!.fatG.round()} г · У ${day.dayNutrition!.carbsG.round()} г',
+                            l10n.todayPlanSheetDayMacros(
+                              day.dayNutrition!.kcal.round(),
+                              day.dayNutrition!.proteinG.round(),
+                              day.dayNutrition!.fatG.round(),
+                              day.dayNutrition!.carbsG.round(),
+                            ),
                             style: Theme.of(sheetContext).textTheme.titleSmall,
                           ),
                         ],
@@ -244,13 +247,16 @@ class _TodayPlanView extends StatelessWidget {
                 for (final meal in day.meals) ...[
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: Text('${mealTypeRu(meal.type)} — ${meal.title}'),
+                    title: Text('${mealTypeLabel(l10n, meal.type)} — ${meal.title}'),
                     subtitle: Text(
-                      '${meal.nutrition.kcal.round()} ккал · Б ${meal.nutrition.proteinG.round()} г',
+                      l10n.todayPlanMealSubtitle(
+                        meal.nutrition.kcal.round(),
+                        meal.nutrition.proteinG.round(),
+                      ),
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
-                      final recipe = formatRecipe(meal);
+                      final recipe = formatRecipe(meal, l10n);
                       Navigator.of(sheetContext).pop();
                       router.push(RecipeRoute(title: meal.title, recipe: recipe));
                     },
@@ -269,6 +275,7 @@ class _TodayPlanView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TodayPlanCubit, TodayPlanState>(
       builder: (context, state) {
+        final l10n = context.l10n;
         final title = state.activePlanTitle;
 
         Widget body;
@@ -284,7 +291,7 @@ class _TodayPlanView extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 children: [
                   Text(
-                    'Не удалось загрузить план. Потяни вниз, чтобы обновить.',
+                    l10n.todayPlanLoadFailed,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
@@ -299,8 +306,7 @@ class _TodayPlanView extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 children: [
                   Text(
-                    'Пока нет сохранённых планов или в плане нет дней. '
-                    'Создай план на вкладке «Питание» и при необходимости выбери активный план.',
+                    l10n.todayPlanEmpty,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
@@ -321,12 +327,16 @@ class _TodayPlanView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(6),
                       child: SegmentedButton<int>(
-                        segments: const [
-                          ButtonSegment(value: 0, label: Text('Сегодня'), icon: Icon(Icons.today_outlined)),
+                        segments: [
+                          ButtonSegment(
+                            value: 0,
+                            label: Text(l10n.todayPlanSegmentToday),
+                            icon: const Icon(Icons.today_outlined),
+                          ),
                           ButtonSegment(
                             value: 1,
-                            label: Text('Весь план'),
-                            icon: Icon(Icons.calendar_view_week_outlined),
+                            label: Text(l10n.todayPlanSegmentFull),
+                            icon: const Icon(Icons.calendar_view_week_outlined),
                           ),
                         ],
                         selected: {state.segmentIndex},
@@ -341,7 +351,7 @@ class _TodayPlanView extends StatelessWidget {
                       ? _TodaySegment(
                           day: state.todayDay,
                           onOpenRecipe: (meal) {
-                            final recipe = formatRecipe(meal);
+                            final recipe = formatRecipe(meal, l10n);
                             context.router.push(RecipeRoute(title: meal.title, recipe: recipe));
                           },
                         )
@@ -362,7 +372,7 @@ class _TodayPlanView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('План'),
+                Text(l10n.todayPlanAppBarTitle),
                 if (title != null && title.isNotEmpty)
                   Text(
                     title,
@@ -379,7 +389,7 @@ class _TodayPlanView extends StatelessWidget {
                 child: TextButton.icon(
                   onPressed: () => _openPlanPicker(context),
                   icon: const Icon(Icons.swap_horiz_rounded, size: 20),
-                  label: const Text('Планы'),
+                  label: Text(l10n.todayPlanPlansButton),
                 ),
               ),
             ],
@@ -402,6 +412,7 @@ class _TodaySegment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     if (day == null) {
       return RefreshIndicator(
         onRefresh: () => context.read<TodayPlanCubit>().load(),
@@ -410,8 +421,7 @@ class _TodaySegment extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           children: [
             Text(
-              'В активном плане нет дня, совпадающего с сегодняшним по схеме недели. '
-              'Открой «Весь план» или выбери другой активный план.',
+              l10n.todayPlanNoTodayMatch,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
@@ -426,10 +436,12 @@ class _TodaySegment extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
-              'За день: ${d.dayNutrition!.kcal.round()} ккал · '
-              'Б ${d.dayNutrition!.proteinG.round()} г · '
-              'Ж ${d.dayNutrition!.fatG.round()} г · '
-              'У ${d.dayNutrition!.carbsG.round()} г',
+              l10n.todayPlanDayTotals(
+                d.dayNutrition!.kcal.round(),
+                d.dayNutrition!.proteinG.round(),
+                d.dayNutrition!.fatG.round(),
+                d.dayNutrition!.carbsG.round(),
+              ),
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
@@ -437,9 +449,12 @@ class _TodaySegment extends StatelessWidget {
       ...d.meals.map(
         (meal) => Card(
           child: ListTile(
-            title: Text('${mealTypeRu(meal.type)} — ${meal.title}'),
+            title: Text('${mealTypeLabel(l10n, meal.type)} — ${meal.title}'),
             subtitle: Text(
-              '${meal.nutrition.kcal.round()} ккал · Б ${meal.nutrition.proteinG.round()} г',
+              l10n.todayPlanMealSubtitle(
+                meal.nutrition.kcal.round(),
+                meal.nutrition.proteinG.round(),
+              ),
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => onOpenRecipe(meal),
@@ -480,13 +495,15 @@ class _FullPlanSegment extends StatelessWidget {
         itemCount: days.length,
         separatorBuilder: (context, index) => const Gap(8),
         itemBuilder: (context, index) {
+          final l10n = context.l10n;
           final d = days[index];
           final mealsCount = d.meals.length;
           final kcal = d.dayNutrition?.kcal.round() ?? 0;
+          final kcalPart = kcal > 0 ? l10n.todayPlanKcalApprox(kcal) : '';
           return Card(
             child: ListTile(
-              title: Text('День ${d.dayIndex} · ${weekdayShortRu(d.weekDay)}'),
-              subtitle: Text('$mealsCount приёмов пищи${kcal > 0 ? ' · ~$kcal ккал' : ''}'),
+              title: Text(l10n.todayPlanDayRowTitle(d.dayIndex, weekdayShort(l10n, d.weekDay))),
+              subtitle: Text(l10n.todayPlanDayRowSubtitle(mealsCount, kcalPart)),
               trailing: const Icon(Icons.expand_more),
               onTap: () => onDayTap(d),
             ),
