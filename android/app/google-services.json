@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96541667690",
+    "project_id": "mst-step-2",
+    "storage_bucket": "mst-step-2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96541667690:android:445d69c132c8e4452cf513",
+        "android_client_info": {
+          "package_name": "com.nicfuno.sonicforgeflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuSLpfe0YVJu-Nhm3q0hBgSfO6MVHiq2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
