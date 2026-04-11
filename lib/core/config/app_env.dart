@@ -34,4 +34,12 @@ class Env {
   static String get admobAppOpenAdUnitId => dotenv.get('ADMOB_APP_OPEN_AD_UNIT_ID', fallback: '');
 
   static String get admobNativeAdUnitId => dotenv.get('ADMOB_NATIVE_AD_UNIT_ID', fallback: '');
+
+  /// iOS Simulator: принудительно `GADSimulatorID`, если автоопределение симулятора не сработало.
+  static bool get admobIosSimulatorTestDevice =>
+      dotenv.get('ADMOB_IOS_SIMULATOR_TEST_DEVICE', fallback: '').toLowerCase() == 'true';
+
+  /// Android emulator: принудительно id эмулятора GMA, если автоопределение не сработало.
+  static bool get admobAndroidEmulatorTestDevice =>
+      dotenv.get('ADMOB_ANDROID_EMULATOR_TEST_DEVICE', fallback: '').toLowerCase() == 'true';
 }

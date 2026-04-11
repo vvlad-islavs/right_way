@@ -23,42 +23,51 @@ class _BodyInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Тело')),
-      body: BlocBuilder<BodyInfoBloc, BodyInfoState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: BlocBuilder<BodyInfoBloc, BodyInfoState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          return ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              _FieldTile(
-                label: 'Рост (см)',
-                value: state.heightText,
-                onSave: (raw) =>
-                    context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.heightCm, raw: raw)),
-              ),
-              const Gap(12),
-              _FieldTile(
-                label: 'Вес (кг)',
-                value: state.weightText,
-                onSave: (raw) =>
-                    context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.weightKg, raw: raw)),
-              ),
-              const Gap(12),
-              _FieldTile(
-                label: 'Возраст',
-                value: state.ageText,
-                onSave: (raw) => context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.age, raw: raw)),
-              ),
-              const Gap(24),
-              FilledButton.tonal(
-                onPressed: () => context.router.navigate(const TodayPlanRoute()),
-                child: const Text('Открыть план на сегодня'),
-              ),
-            ],
-          );
-        },
+                return ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    _FieldTile(
+                      label: 'Рост (см)',
+                      value: state.heightText,
+                      onSave: (raw) =>
+                          context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.heightCm, raw: raw)),
+                    ),
+                    const Gap(12),
+                    _FieldTile(
+                      label: 'Вес (кг)',
+                      value: state.weightText,
+                      onSave: (raw) =>
+                          context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.weightKg, raw: raw)),
+                    ),
+                    const Gap(12),
+                    _FieldTile(
+                      label: 'Возраст',
+                      value: state.ageText,
+                      onSave: (raw) =>
+                          context.read<BodyInfoBloc>().add(BodyInfoEvent.save(field: BodyField.age, raw: raw)),
+                    ),
+                    const Gap(24),
+                    FilledButton.tonal(
+                      onPressed: () => context.router.navigate(const TodayPlanRoute()),
+                      child: const Text('Открыть план на сегодня'),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          const AdMobBannerSlot(),
+        ],
       ),
     );
   }
