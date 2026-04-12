@@ -350,4 +350,139 @@ class AppLocalizationsRu extends AppLocalizations {
   String errorAiNetwork(String provider) {
     return '$provider: запрос не выполнен. Проверь сеть, ключ и лимиты.';
   }
+
+  @override
+  String get navTabAds => 'Реклама';
+
+  @override
+  String get navTabSubscription => 'Подписка';
+
+  @override
+  String get adsTitle => 'Реклама';
+
+  @override
+  String get adsSdkStatus => 'Статус SDK';
+
+  @override
+  String get adsSdkInitialized => 'Инициализирован';
+
+  @override
+  String get adsSdkNotInitialized => 'Не инициализирован';
+
+  @override
+  String get adsBannerSection => 'Баннер';
+
+  @override
+  String get adsFormatsSection => 'Форматы';
+
+  @override
+  String get adsUnitIdLabel => 'Unit ID';
+
+  @override
+  String get adsNotConfigured => 'Не настроено';
+
+  @override
+  String get adsBannerLabel => 'Banner';
+
+  @override
+  String get adsInterstitialLabel => 'Interstitial';
+
+  @override
+  String get adsRewardedLabel => 'Rewarded';
+
+  @override
+  String get adsRewardedInterstitialLabel => 'Rewarded Interstitial';
+
+  @override
+  String get adsAppOpenLabel => 'App Open';
+
+  @override
+  String get adsNativeLabel => 'Native Advanced';
+
+  @override
+  String get adsShowAd => 'Показать';
+
+  @override
+  String get subscriptionTitle => 'Подписка';
+
+  @override
+  String get subscriptionStatusSection => 'Статус';
+
+  @override
+  String get subscriptionPremium => 'Премиум-доступ';
+
+  @override
+  String get subscriptionActiveFlag => 'Активная подписка';
+
+  @override
+  String get subscriptionYes => 'Да';
+
+  @override
+  String get subscriptionNo => 'Нет';
+
+  @override
+  String get subscriptionUnknown => '—';
+
+  @override
+  String get subscriptionListSection => 'Активные подписки';
+
+  @override
+  String get subscriptionNoneActive => 'Нет активных подписок';
+
+  @override
+  String get subscriptionProductId => 'Продукт';
+
+  @override
+  String get subscriptionStatus => 'Статус';
+
+  @override
+  String get subscriptionExpiresAt => 'Истекает';
+
+  @override
+  String get subscriptionAutorenew => 'Авторенью';
+
+  @override
+  String get subscriptionPlacementsSection => 'Размещения (Placements)';
+
+  @override
+  String get subscriptionNoPlacements => 'Размещения ещё не загружены';
+
+  @override
+  String get subscriptionProductsSection => 'Продукты paywall';
+
+  @override
+  String get subscriptionNoProducts => 'Продукты ещё не загружены';
+
+  @override
+  String get subscriptionRestore => 'Восстановить покупки';
+
+  @override
+  String get subscriptionRestoreSuccess => 'Покупки успешно восстановлены';
+
+  @override
+  String get subscriptionRestoreFailed => 'Не удалось восстановить покупки';
+
+  @override
+  String get subscriptionRestoreNothing => 'Активных покупок не найдено';
+
+  @override
+  String get subscriptionSdkNotReady => 'Apphud SDK не инициализирован';
+
+  @override
+  String get subscriptionBuy => 'Купить';
+
+  @override
+  String get subscriptionPurchaseSuccess => 'Подписка успешно оформлена';
+
+  @override
+  String get subscriptionPurchaseFailed => 'Не удалось оформить подписку';
+
+  @override
+  String get subscriptionPurchasing => 'Оформляем...';
+
+  @override
+  String get subscriptionWeekly => 'Еженедельно';
+
+  @override
+  String get subscriptionMonthly => 'Ежемесячно';
 }

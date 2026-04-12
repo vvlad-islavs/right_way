@@ -351,4 +351,140 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorAiNetwork(String provider) {
     return '$provider: request failed. Check network, key, and limits.';
   }
+
+  @override
+  String get navTabAds => 'Ads';
+
+  @override
+  String get navTabSubscription => 'Subscription';
+
+  @override
+  String get adsTitle => 'Ads';
+
+  @override
+  String get adsSdkStatus => 'SDK status';
+
+  @override
+  String get adsSdkInitialized => 'Initialized';
+
+  @override
+  String get adsSdkNotInitialized => 'Not initialized';
+
+  @override
+  String get adsBannerSection => 'Banner';
+
+  @override
+  String get adsFormatsSection => 'Ad formats';
+
+  @override
+  String get adsUnitIdLabel => 'Unit ID';
+
+  @override
+  String get adsNotConfigured => 'Not configured';
+
+  @override
+  String get adsBannerLabel => 'Banner';
+
+  @override
+  String get adsInterstitialLabel => 'Interstitial';
+
+  @override
+  String get adsRewardedLabel => 'Rewarded';
+
+  @override
+  String get adsRewardedInterstitialLabel => 'Rewarded Interstitial';
+
+  @override
+  String get adsAppOpenLabel => 'App Open';
+
+  @override
+  String get adsNativeLabel => 'Native Advanced';
+
+  @override
+  String get adsShowAd => 'Show';
+
+  @override
+  String get subscriptionTitle => 'Subscription';
+
+  @override
+  String get subscriptionStatusSection => 'Status';
+
+  @override
+  String get subscriptionPremium => 'Premium access';
+
+  @override
+  String get subscriptionActiveFlag => 'Active subscription';
+
+  @override
+  String get subscriptionYes => 'Yes';
+
+  @override
+  String get subscriptionNo => 'No';
+
+  @override
+  String get subscriptionUnknown => '—';
+
+  @override
+  String get subscriptionListSection => 'Active subscriptions';
+
+  @override
+  String get subscriptionNoneActive => 'No active subscriptions';
+
+  @override
+  String get subscriptionProductId => 'Product';
+
+  @override
+  String get subscriptionStatus => 'Status';
+
+  @override
+  String get subscriptionExpiresAt => 'Expires';
+
+  @override
+  String get subscriptionAutorenew => 'Auto-renew';
+
+  @override
+  String get subscriptionPlacementsSection => 'Placements';
+
+  @override
+  String get subscriptionNoPlacements => 'No placements loaded yet';
+
+  @override
+  String get subscriptionProductsSection => 'Paywall products';
+
+  @override
+  String get subscriptionNoProducts => 'No products loaded yet';
+
+  @override
+  String get subscriptionRestore => 'Restore purchases';
+
+  @override
+  String get subscriptionRestoreSuccess => 'Purchases restored successfully';
+
+  @override
+  String get subscriptionRestoreFailed => 'Could not restore purchases';
+
+  @override
+  String get subscriptionRestoreNothing => 'No active purchases found';
+
+  @override
+  String get subscriptionSdkNotReady => 'Apphud SDK is not initialized';
+
+  @override
+  String get subscriptionBuy => 'Buy';
+
+  @override
+  String get subscriptionPurchaseSuccess =>
+      'Subscription activated successfully';
+
+  @override
+  String get subscriptionPurchaseFailed => 'Could not complete the purchase';
+
+  @override
+  String get subscriptionPurchasing => 'Processing...';
+
+  @override
+  String get subscriptionWeekly => 'Weekly';
+
+  @override
+  String get subscriptionMonthly => 'Monthly';
 }

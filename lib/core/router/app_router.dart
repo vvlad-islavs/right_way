@@ -16,6 +16,8 @@ class AppRouter extends RootStackRouter {
             AutoRoute(page: NutritionSettingsRoute.page),
             AutoRoute(page: TodayPlanRoute.page),
             AutoRoute(page: AppSettingsRoute.page),
+            AutoRoute(page: AdsRoute.page),
+            AutoRoute(page: SubscriptionRoute.page),
           ],
         ),
         AutoRoute(page: RecipeRoute.page),

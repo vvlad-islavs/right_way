@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:right_way/core/core.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:right_way/core/core.dart';
 
 class AppInitializer {
   late final AppRouter router;
@@ -16,6 +16,7 @@ class AppInitializer {
     await CoreDi.init(objectBox: objectBox);
     await TelemetryBootstrap.init(talker, enableTalker: true, enable: true);
     TelemetryBootstrap.wireErrorReporter();
+    await ApphudBootstrap.init(talker, enable: true);
     await AdMobBootstrap.init(talker, enable: true);
     router = AppRouter();
   }

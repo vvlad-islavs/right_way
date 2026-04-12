@@ -10,6 +10,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:right_way/core/config/app_env.dart';
 import 'package:right_way/core/di/core_di.dart';
+import 'package:right_way/core/purchases/appsflyer_apphud_attribution.dart';
 import 'package:right_way/core/errors/errors.dart';
 import 'package:right_way/core/telemetry/app_telemetry.dart';
 import 'package:right_way/firebase_options.dart';
@@ -95,33 +96,37 @@ class TelemetryBootstrap {
     final afKey = Env.appsflyerDevKey;
     if (afKey.isEmpty) {
       talker.warning('APPSFLYER_DEV_KEY пуст — AppsFlyer не запущен.');
-    } else if (Platform.isAndroid) {
-      // Пока в AppsFlyer на Anroid вовзращает 400 код ошибки
-      talker.info(
-        'AppsFlyer на Android возвращает 400 код ошибки, пропускаем.'
-      );
+    // }
+    // else if (Platform.isAndroid) {
+    //   // Пока в AppsFlyer на Anroid вовзращает 400 код ошибки
+    //   talker.info('AppsFlyer на Android возвращает 400 код ошибки, пропускаем.');
     } else {
       try {
         final options = AppsFlyerOptions(
           afDevKey: afKey,
           appId: Env.appsflyerAppleAppId,
           showDebug: kDebugMode,
-          timeToWaitForATTUserAuthorization:Platform.isIOS ? 60 : null,
+          timeToWaitForATTUserAuthorization: Platform.isIOS ? 60 : null,
+          manualStart: true,
         );
         appsflyer = AppsflyerSdk(options);
-
-        appsflyer.onInstallConversionData((dynamic data) {
-          talker.info('AppsFlyer install conversion: $data');
-        });
-        appsflyer.onAppOpenAttribution((dynamic data) {
-          talker.info('AppsFlyer app open attribution: $data');
-        });
 
         await appsflyer.initSdk(
           registerConversionDataCallback: true,
           registerOnAppOpenAttributionCallback: true,
           registerOnDeepLinkingCallback: true,
         );
+        appsflyer.onInstallConversionData((dynamic data) {
+          AppsFlyerApphudAttribution.onInstallConversionData(talker, data);
+          talker.info('AppsFlyer install conversion: $data');
+        });
+        appsflyer.onAppOpenAttribution((dynamic data) {
+          AppsFlyerApphudAttribution.onAppOpenAttribution(talker, data);
+          talker.info('AppsFlyer app open attribution: $data');
+        });
+
+        appsflyer.startSDK();
+
         talker.info('AppsFlyer SDK started.');
         await _runIosAttFlow(talker);
       } catch (e, st) {

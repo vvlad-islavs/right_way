@@ -6,6 +6,7 @@ export 'errors/errors.dart';
 export 'l10n/l10n.dart';
 export 'logging/logging.dart';
 export 'network/network.dart';
+export 'purchases/purchases.dart';
 export 'router/router.dart';
 export 'storage/storage.dart';
 export 'telemetry/telemetry.dart';

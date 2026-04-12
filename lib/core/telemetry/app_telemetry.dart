@@ -32,6 +32,11 @@ class AppTelemetry {
   final AppsflyerSdk? _appsflyer;
   final bool _appMetricaActive;
 
+  /// Для AppHud и др. интеграций после старта телеметрии.
+  FirebaseAnalytics? get firebaseAnalytics => _analytics;
+
+  AppsflyerSdk? get appsflyerSdk => _appsflyer;
+
   /// Экраны: Firebase (GA4) + AppMetrica; в AppsFlyer — облегчённое событие для воронок.
   Future<void> logScreenView(String screenName) async {
     final name = _truncate(_sanitizeName(screenName), 100);
@@ -165,6 +170,62 @@ class AppTelemetry {
 
   /// Пользователь удалил план.
   Future<void> logPlanDeleted() => logCustomEvent('rw_plan_deleted');
+
+  // ─── Subscription events ───────────────────────────────────────────────────
+
+  /// Продукты paywall загружены и доступны (placements ready).
+  Future<void> logSubProductsLoaded({required int count}) =>
+      logCustomEvent('rw_sub_products_loaded', {'count': count});
+
+  /// Пользователь нажал «Купить».
+  Future<void> logSubPurchaseStarted({
+    required String productId,
+    required String planType,
+  }) =>
+      logCustomEvent('rw_sub_purchase_started', {
+        'product_id': productId,
+        'plan_type': planType,
+      });
+
+  /// Покупка прошла успешно.
+  Future<void> logSubPurchaseSuccess({
+    required String productId,
+    required String planType,
+    String? price,
+    String? currency,
+  }) =>
+      logCustomEvent('rw_sub_purchase_success', {
+        'product_id': productId,
+        'plan_type': planType,
+        'price': price,
+        'currency': currency,
+      });
+
+  /// Покупка завершилась ошибкой (в т.ч. отмена пользователем).
+  Future<void> logSubPurchaseFailed({
+    required String productId,
+    String? errorMessage,
+  }) =>
+      logCustomEvent('rw_sub_purchase_failed', {
+        'product_id': productId,
+        if (errorMessage != null && errorMessage.isNotEmpty) 'error': errorMessage,
+      });
+
+  /// Пользователь нажал «Восстановить покупки».
+  Future<void> logSubRestoreStarted() => logCustomEvent('rw_sub_restore_started');
+
+  /// Восстановление прошло успешно, есть активные подписки.
+  Future<void> logSubRestoreSuccess({required int restoredCount}) =>
+      logCustomEvent('rw_sub_restore_success', {'count': restoredCount});
+
+  /// После restore активных покупок не найдено.
+  Future<void> logSubRestoreNothing() => logCustomEvent('rw_sub_restore_nothing');
+
+  /// Восстановление отменено или прервано ошибкой StoreKit / Billing.
+  Future<void> logSubRestoreCancelled({String? errorMessage}) =>
+      logCustomEvent('rw_sub_restore_cancelled', {
+        if (errorMessage != null && errorMessage.isNotEmpty) 'error': errorMessage,
+      });
 
   /// [active]: false — sink отключён, вызов и лог успеха пропускаются.
   Future<void> _safe(String sink, String action, {required bool active, required Future<void> Function() fn}) async {

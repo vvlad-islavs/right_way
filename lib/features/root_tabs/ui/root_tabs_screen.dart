@@ -42,6 +42,8 @@ class _RootTabsScreenState extends State<RootTabsScreen> {
           NutritionSettingsRoute(),
           TodayPlanRoute(),
           AppSettingsRoute(),
+          AdsRoute(),
+          SubscriptionRoute(),
         ],
         builder: (context, child) {
           final tabs = AutoTabsRouter.of(context);
@@ -66,6 +68,14 @@ class _RootTabsScreenState extends State<RootTabsScreen> {
                 NavigationDestination(
                   icon: const Icon(Icons.settings_outlined),
                   label: l10n.navTabSettings,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.local_offer_outlined),
+                  label: l10n.navTabAds,
+                ),
+                NavigationDestination(
+                  icon: const Icon(Icons.workspace_premium_outlined),
+                  label: l10n.navTabSubscription,
                 ),
               ],
             ),

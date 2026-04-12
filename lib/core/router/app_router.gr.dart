@@ -11,6 +11,22 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [AdsScreen]
+class AdsRoute extends PageRouteInfo<void> {
+  const AdsRoute({List<PageRouteInfo>? children})
+    : super(AdsRoute.name, initialChildren: children);
+
+  static const String name = 'AdsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AdsScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [AppSettingsScreen]
 class AppSettingsRoute extends PageRouteInfo<void> {
   const AppSettingsRoute({List<PageRouteInfo>? children})
@@ -124,6 +140,22 @@ class RootTabsRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const RootTabsScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [SubscriptionScreen]
+class SubscriptionRoute extends PageRouteInfo<void> {
+  const SubscriptionRoute({List<PageRouteInfo>? children})
+    : super(SubscriptionRoute.name, initialChildren: children);
+
+  static const String name = 'SubscriptionRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const SubscriptionScreen();
     },
   );
 }

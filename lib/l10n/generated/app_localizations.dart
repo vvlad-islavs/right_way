@@ -685,6 +685,276 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'{provider}: запрос не выполнен. Проверь сеть, ключ и лимиты.'**
   String errorAiNetwork(String provider);
+
+  /// No description provided for @navTabAds.
+  ///
+  /// In ru, this message translates to:
+  /// **'Реклама'**
+  String get navTabAds;
+
+  /// No description provided for @navTabSubscription.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подписка'**
+  String get navTabSubscription;
+
+  /// No description provided for @adsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Реклама'**
+  String get adsTitle;
+
+  /// No description provided for @adsSdkStatus.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статус SDK'**
+  String get adsSdkStatus;
+
+  /// No description provided for @adsSdkInitialized.
+  ///
+  /// In ru, this message translates to:
+  /// **'Инициализирован'**
+  String get adsSdkInitialized;
+
+  /// No description provided for @adsSdkNotInitialized.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не инициализирован'**
+  String get adsSdkNotInitialized;
+
+  /// No description provided for @adsBannerSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Баннер'**
+  String get adsBannerSection;
+
+  /// No description provided for @adsFormatsSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Форматы'**
+  String get adsFormatsSection;
+
+  /// No description provided for @adsUnitIdLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Unit ID'**
+  String get adsUnitIdLabel;
+
+  /// No description provided for @adsNotConfigured.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не настроено'**
+  String get adsNotConfigured;
+
+  /// No description provided for @adsBannerLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Banner'**
+  String get adsBannerLabel;
+
+  /// No description provided for @adsInterstitialLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Interstitial'**
+  String get adsInterstitialLabel;
+
+  /// No description provided for @adsRewardedLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Rewarded'**
+  String get adsRewardedLabel;
+
+  /// No description provided for @adsRewardedInterstitialLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Rewarded Interstitial'**
+  String get adsRewardedInterstitialLabel;
+
+  /// No description provided for @adsAppOpenLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'App Open'**
+  String get adsAppOpenLabel;
+
+  /// No description provided for @adsNativeLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Native Advanced'**
+  String get adsNativeLabel;
+
+  /// No description provided for @adsShowAd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать'**
+  String get adsShowAd;
+
+  /// No description provided for @subscriptionTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подписка'**
+  String get subscriptionTitle;
+
+  /// No description provided for @subscriptionStatusSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статус'**
+  String get subscriptionStatusSection;
+
+  /// No description provided for @subscriptionPremium.
+  ///
+  /// In ru, this message translates to:
+  /// **'Премиум-доступ'**
+  String get subscriptionPremium;
+
+  /// No description provided for @subscriptionActiveFlag.
+  ///
+  /// In ru, this message translates to:
+  /// **'Активная подписка'**
+  String get subscriptionActiveFlag;
+
+  /// No description provided for @subscriptionYes.
+  ///
+  /// In ru, this message translates to:
+  /// **'Да'**
+  String get subscriptionYes;
+
+  /// No description provided for @subscriptionNo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет'**
+  String get subscriptionNo;
+
+  /// No description provided for @subscriptionUnknown.
+  ///
+  /// In ru, this message translates to:
+  /// **'—'**
+  String get subscriptionUnknown;
+
+  /// No description provided for @subscriptionListSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Активные подписки'**
+  String get subscriptionListSection;
+
+  /// No description provided for @subscriptionNoneActive.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет активных подписок'**
+  String get subscriptionNoneActive;
+
+  /// No description provided for @subscriptionProductId.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продукт'**
+  String get subscriptionProductId;
+
+  /// No description provided for @subscriptionStatus.
+  ///
+  /// In ru, this message translates to:
+  /// **'Статус'**
+  String get subscriptionStatus;
+
+  /// No description provided for @subscriptionExpiresAt.
+  ///
+  /// In ru, this message translates to:
+  /// **'Истекает'**
+  String get subscriptionExpiresAt;
+
+  /// No description provided for @subscriptionAutorenew.
+  ///
+  /// In ru, this message translates to:
+  /// **'Авторенью'**
+  String get subscriptionAutorenew;
+
+  /// No description provided for @subscriptionPlacementsSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Размещения (Placements)'**
+  String get subscriptionPlacementsSection;
+
+  /// No description provided for @subscriptionNoPlacements.
+  ///
+  /// In ru, this message translates to:
+  /// **'Размещения ещё не загружены'**
+  String get subscriptionNoPlacements;
+
+  /// No description provided for @subscriptionProductsSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продукты paywall'**
+  String get subscriptionProductsSection;
+
+  /// No description provided for @subscriptionNoProducts.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продукты ещё не загружены'**
+  String get subscriptionNoProducts;
+
+  /// No description provided for @subscriptionRestore.
+  ///
+  /// In ru, this message translates to:
+  /// **'Восстановить покупки'**
+  String get subscriptionRestore;
+
+  /// No description provided for @subscriptionRestoreSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Покупки успешно восстановлены'**
+  String get subscriptionRestoreSuccess;
+
+  /// No description provided for @subscriptionRestoreFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось восстановить покупки'**
+  String get subscriptionRestoreFailed;
+
+  /// No description provided for @subscriptionRestoreNothing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Активных покупок не найдено'**
+  String get subscriptionRestoreNothing;
+
+  /// No description provided for @subscriptionSdkNotReady.
+  ///
+  /// In ru, this message translates to:
+  /// **'Apphud SDK не инициализирован'**
+  String get subscriptionSdkNotReady;
+
+  /// No description provided for @subscriptionBuy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Купить'**
+  String get subscriptionBuy;
+
+  /// No description provided for @subscriptionPurchaseSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подписка успешно оформлена'**
+  String get subscriptionPurchaseSuccess;
+
+  /// No description provided for @subscriptionPurchaseFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось оформить подписку'**
+  String get subscriptionPurchaseFailed;
+
+  /// No description provided for @subscriptionPurchasing.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оформляем...'**
+  String get subscriptionPurchasing;
+
+  /// No description provided for @subscriptionWeekly.
+  ///
+  /// In ru, this message translates to:
+  /// **'Еженедельно'**
+  String get subscriptionWeekly;
+
+  /// No description provided for @subscriptionMonthly.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ежемесячно'**
+  String get subscriptionMonthly;
 }
 
 class _AppLocalizationsDelegate
