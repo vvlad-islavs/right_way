@@ -64,9 +64,12 @@ class NutritionSettingsBloc extends Bloc<NutritionSettingsEvent, NutritionSettin
           aiProvider: provider.id,
         ),
       );
-    } catch (_) {
+    } catch (e) {
       emit(state.copyWith(isLoading: false, result: null));
-      unawaited(_telemetry.logPlanGenerationFailed(aiProvider: provider.id));
+      unawaited(_telemetry.logPlanGenerationFailed(
+        aiProvider: provider.id,
+        reason: e.toString(),
+      ));
     }
   }
 }

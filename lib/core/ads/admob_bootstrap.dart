@@ -1,8 +1,7 @@
 import 'dart:developer';
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, TargetPlatform;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:right_way/core/config/app_env.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -42,27 +41,38 @@ bool get _isAndroidEmulatorHost {
 
 Future<void> _applyTestDeviceConfiguration(Talker talker) async {
   final ids = <String>[];
-  late final String reason;
+  final reasons = <String>[];
 
   switch (defaultTargetPlatform) {
     case TargetPlatform.iOS:
       final use = _isIosSimulatorHost || Env.admobIosSimulatorTestDevice;
-      if (!use) return;
-      ids.add('GADSimulatorID');
-      reason = Env.admobIosSimulatorTestDevice && !_isIosSimulatorHost ? 'iOS (.env)' : 'iOS Simulator';
+      if (use) {
+        ids.add('GADSimulatorID');
+        reasons.add(Env.admobIosSimulatorTestDevice && !_isIosSimulatorHost ? 'iOS (.env)' : 'iOS Simulator');
+      }
     case TargetPlatform.android:
-      final use = _isAndroidEmulatorHost || Env.admobAndroidEmulatorTestDevice;
-      if (!use) return;
-      ids.add(_androidGmaEmulatorTestDeviceId);
-      reason = Env.admobAndroidEmulatorTestDevice && !_isAndroidEmulatorHost
-          ? 'Android (.env)'
-          : 'Android emulator';
+      final useEmulator = _isAndroidEmulatorHost || Env.admobAndroidEmulatorTestDevice;
+      if (useEmulator) {
+        ids.add(_androidGmaEmulatorTestDeviceId);
+        reasons.add(
+          Env.admobAndroidEmulatorTestDevice && !_isAndroidEmulatorHost ? 'Android (.env)' : 'Android emulator',
+        );
+      }
     default:
-      return;
+      break;
   }
 
-   MobileAds.instance.updateRequestConfiguration(RequestConfiguration(testDeviceIds: ids));
-  talker.info('AdMob: testDeviceIds ${ids.join(", ")} ($reason).');
+  // Дополнительные реальные тестовые устройства разработчиков из .env.
+  final extra = Env.admobTestDeviceIds;
+  if (extra.isNotEmpty) {
+    ids.addAll(extra);
+    reasons.add('ADMOB_TEST_DEVICE_IDS (.env)');
+  }
+
+  if (ids.isEmpty) return;
+
+  MobileAds.instance.updateRequestConfiguration(RequestConfiguration(testDeviceIds: ids));
+  talker.info('AdMob: testDeviceIds [${ids.join(", ")}] (${reasons.join(", ")}).');
 }
 
 class AdMobBootstrap {
@@ -84,11 +94,13 @@ class AdMobBootstrap {
       return;
     }
     try {
+      // Тестовые устройства нужно зарегистрировать ДО initialize() —
+      // иначе первые запросы уходят без флага тестового режима.
+      await _applyTestDeviceConfiguration(talker);
       final status = await MobileAds.instance.initialize();
       _initialized = true;
       final adapters = status.adapterStatuses.entries.map((e) => '${e.key}:${e.value.state.name}').join(', ');
       talker.info('AdMob initialized ($adapters).');
-      await _applyTestDeviceConfiguration(talker);
     } catch (e, st) {
       talker.error('AdMob init failed.', e, st);
     }

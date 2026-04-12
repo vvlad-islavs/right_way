@@ -48,4 +48,15 @@ class Env {
   /// Android emulator: принудительно id эмулятора GMA, если автоопределение не сработало.
   static bool get admobAndroidEmulatorTestDevice =>
       dotenv.get('ADMOB_ANDROID_EMULATOR_TEST_DEVICE', fallback: '').toLowerCase() == 'true';
+
+  /// Дополнительные тестовые device ID (через запятую) для реальных устройств разработчиков.
+  /// Пример: ADMOB_TEST_DEVICE_IDS=A1B2C3D4,E5F6G7H8
+  /// Hash устройства виден в logcat: "Use ... setTestDeviceIds(Arrays.asList("HASH"))"
+  static List<String> get admobTestDeviceIds =>
+      dotenv
+          .get('ADMOB_TEST_DEVICE_IDS', fallback: '')
+          .split(',')
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
 }
