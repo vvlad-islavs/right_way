@@ -96,10 +96,9 @@ class TelemetryBootstrap {
     final afKey = Env.appsflyerDevKey;
     if (afKey.isEmpty) {
       talker.warning('APPSFLYER_DEV_KEY пуст — AppsFlyer не запущен.');
-    // }
-    // else if (Platform.isAndroid) {
-    //   // Пока в AppsFlyer на Anroid вовзращает 400 код ошибки
-    //   talker.info('AppsFlyer на Android возвращает 400 код ошибки, пропускаем.');
+    } else if (Platform.isAndroid) {
+      // Пока в AppsFlyer на Anroid вовзращает 400 код ошибки
+      talker.info('AppsFlyer на Android возвращает 400 код ошибки, пропускаем.');
     } else {
       try {
         final options = AppsFlyerOptions(
@@ -116,6 +115,7 @@ class TelemetryBootstrap {
           registerOnAppOpenAttributionCallback: true,
           registerOnDeepLinkingCallback: true,
         );
+
         appsflyer.onInstallConversionData((dynamic data) {
           AppsFlyerApphudAttribution.onInstallConversionData(talker, data);
           talker.info('AppsFlyer install conversion: $data');

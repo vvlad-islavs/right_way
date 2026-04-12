@@ -98,6 +98,8 @@ class AdMobBootstrap {
       // иначе первые запросы уходят без флага тестового режима.
       await _applyTestDeviceConfiguration(talker);
       final status = await MobileAds.instance.initialize();
+      // Открывает дебаг параметры рекламы
+      // await MobileAds.instance.openDebugMenu(AdMobUnitIds.banner);
       _initialized = true;
       final adapters = status.adapterStatuses.entries.map((e) => '${e.key}:${e.value.state.name}').join(', ');
       talker.info('AdMob initialized ($adapters).');

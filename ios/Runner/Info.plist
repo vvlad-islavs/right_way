@@ -55,6 +55,8 @@
 	<!-- Замените на реальный AdMob App ID из дашборда: ca-app-pub-XXXXXXXX~XXXXXXXXXX -->
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3940256099942544~3347511713</string>
+    <key>GADApplicationId</key>
+	<string>ca-app-pub-3940256099942544~3347511713</string>
 
 	<!-- ─── SKAdNetwork (iOS 14+ privacy-preserving attribution) ───────────── -->
 	<!-- Источник: https://developers.google.com/admob/ios/quick-start          -->
